@@ -248,9 +248,9 @@ sin(x) -- x sine, [0..1]; inverted
 sqrt(x) -- x square root
 srand(x) -- set random seed</code></pre>
 
-					<h6>bitwise operations</h6>
+					<h6>operations::bitwise</h6>
 					<pre><code class='lua'>band(x, y) -- both bits are set
-bor(x, y) -- either bit is set
+bor(x, y)&nbsp; -- either bit is set
 bxor(x, y) -- either bit is set, but not both of them
 bnot(x)&nbsp;&nbsp;&nbsp;&nbsp;-- each bit is not set
 shl(x, n)&nbsp;&nbsp;-- shift left n bits (zeros come in from the right)
@@ -258,6 +258,19 @@ shr(x, n)&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is dupli
 lshr(x, n) -- logical right shift (zeros comes in from the left)
 rotl(x, n) -- rotate all bits in x left by n places
 rotr(x, n) -- rotate all bits in x right by n places</code></pre>
+					
+
+					<h6>operators::bitwise</h6>
+					<pre><code class='lua'>x & y&nbsp;&nbsp; -- both bits are set
+x | y&nbsp;&nbsp; -- either bit is set
+x ^^ y&nbsp; -- either bit is set, but not both of them
+~ x&nbsp;&nbsp;&nbsp;&nbsp; -- each bit is not set
+x << n&nbsp;&nbsp;-- shift left n bits (zeros come in from the right)
+x >> n&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicated)
+x >>> n -- logical right shift (zeros comes in from the left)
+x &lt;&lt;&gt; n -- rotate all bits in x left by n places
+x >>< n -- rotate all bits in x right by n places</code></pre>
+   
 
           <h6>operators</h6>
           <pre><code class="lua">a = b -- assignment
