@@ -169,6 +169,7 @@ cls([col]) -- clear screen; col = clear color
 color(col) -- set default color
 cursor(x, y) -- set cursor and CR/LF margin position
 fget(n, [f]) -- get values of sprite flags
+fillp(mask) -- set fill pattern for circ, circfill, rect, rectfill, pset, and line
 flip() -- flip screen back buffer (30fps)
 fset(n, [f], v) -- set values of sprite flags
 line(x0, y0, x1, y1, [col]) -- draw line
@@ -183,7 +184,8 @@ sget(x, y) -- get spritesheet pixel colour
 spr(n, x, y, [w, h], [flip_x], [flip_y]) -- draw sprite
 sset(x, y, [col]) -- set spritesheet pixel colour
 sspr(sx, sy, sw, sh, dx, dy, [dw, dh], [flip_x], [flip_y]) -- draw texture from spritesheet
-fillp(mask) -- set fill pattern for circ, circfill, rect, rectfill, pset, and line</code></pre>
+tline(x0, y0, x1, y1, mx, my, [mdx], [mdy]) -- Draws a textured line between two points, sampling the map for data
+</code></pre>
           <h6>fillp() mask</h6>
           <pre><code>.-----------------------.
 |32768|16384| 8192| 4096|
@@ -202,7 +204,14 @@ fillp(mask) -- set fill pattern for circ, circfill, rect, rectfill, pset, and li
 
           <h6>input manipulation</h6>
           <pre><code class="lua">btn([i, [p]]) -- get button i state for player p
-btnp([i, [p]]) -- only true when the button was not pressed the last frame; repeats every 4 frames after button held for 15 frames</code></pre>
+btnp([i, [p]]) -- true when the button was not pressed the last frame; delays 4 frames after button held for 15 frames</code></pre>
+					
+					<h6>Custom delays</h6>
+          <pre><code class="lua">-- Button check time delays; measured in frames @ 30FPS
+-- The default values of 15 and 4 will be used if a value of 0 is given for delay
+poke(0x5F5C, delay) -- sets the initial delay before repeating; 255 will turn off repeat completely
+poke(0x5F5D, delay) -- sets the repeating delay.
+</code></pre>
         </div>
 
         <!-- MAP -->
@@ -237,6 +246,17 @@ shr(x, y) -- shift right
 sin(x) -- x sine, [0..1]; inverted
 sqrt(x) -- x square root
 srand(x) -- set random seed</code></pre>
+
+					<h6>bitwise operations</h6>
+					<pre><code class='lua'>band(x, y) -- both bits are set
+bor(x, y) -- either bit is set
+bxor(x, y) -- either bit is set, but not both of them
+bnot(x)&nbsp;&nbsp;&nbsp;&nbsp;-- each bit is not set
+shl(x, n)&nbsp;&nbsp;-- shift left n bits (zeros come in from the right)
+shr(x, n)&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicated)
+lshr(x, n) -- logical right shift (zeros comes in from the left)
+rotl(x, n) -- rotate all bits in x left by n places
+rotr(x, n) -- rotate all bits in x right by n places</code></pre>
 
           <h6>operators</h6>
           <pre><code class="lua">a = b -- assignment
@@ -412,6 +432,15 @@ stat(32) -- mouse x coord; see "peek / poke" tab
 stat(33) -- mouse y coord; see "peek / poke" tab
 stat(34) -- mouse button bitmask; see "peek / poke" tab</code></pre>
 
+          <h6>debugging</h6>
+          <pre><code class="lua">-- After running the game with <kbd>ctrl + r</kbd>, press <kbd>escape</kbd> to pause execution
+. -- Entering a '.' into the console will advance the game to the next frame
+<kbd>enter</kbd> -- Continue entering the '.' character or simply press <kbd>enter</kbd>
+print(player.x) -- Show the current, live x value of the player. Game does not cease execution, & updates each frame!
+?player.x -- '?' functions just like 'print' and can be used in place as shorthand
+resume() -- The 'resume' function will return the game to a normal running state.
+</code></pre>
+
           <h6>javascript</h6>
           <pre><code class="javascript">pico8_gpio[] // read and write gpio pins
 pico8_buttons[] // bitfields for player input</code></pre>
@@ -457,7 +486,12 @@ all(t) -- used in 'for v in all(t)' loops
 count(t) -- returns number of elements in the table
 del(t, v) -- delete first instance of v in t
 foreach(t, f) -- call f() for each v in t
-pairs(t) -- used in 'for k,v in pairs(t)' loops</code></pre>
+ipairs(t) -- loops through a numerically indexed table; for _, v in ipairs(t) do end
+pairs(t) -- loops through string indexed tables; for k,v in pairs(t) do end
+pack(...) -- adds any number of arguments into a table and returns the table
+unpack(t) -- returns all entries in a table as arguments
+rnd(t) -- returns a random value from a table
+</code></pre>
 
           <h6>metatables :: <u><a href="http://www.lexaloffle.com/bbs/?tid=3342" target="_blank" style="color: white;">view metatables thread</a></u></h6>
           <pre><code class="lua">mt = {} -- init metatable
@@ -536,6 +570,7 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>quit</strong>:</dt> <dd><kbd>alt + f4</kbd> / <kbd>cmd + q</kbd></dd>
                 <dt><strong>reload and run</strong>:</dt> <dd><kbd>ctrl + r</kbd></dd>
                 <dt><strong>save</strong>:</dt> <dd><kbd>ctrl + s</kbd></dd>
+                <dt><strong>cpu graph</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
                 <dt><strong>mute / unmute</strong>:</dt> <dd><kbd>ctrl + m</kbd></dd>
                 <dt><strong>show fps</strong>:</dt> <dd><kbd>ctrl + 1</kbd></dd>
                 <dt><strong>screenshot</strong>:</dt> <dd><kbd>ctrl + 6</kbd> / <kbd>f6</kbd> / <kbd>f1</kbd></dd>
@@ -561,11 +596,13 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>copy (bbs support)</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
                 <dt><strong>paste (bbs support)</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
                 <dt><strong>pan</strong>:</dt> <dd><kbd>space</kbd> / <kbd>mmb</kbd></dd>
-                <dt><strong>navigate sprites</strong>:</dt> <dd><kbd>q</kbd> / <kbd>w</kbd></dd>
+                <dt><strong>navigate sprite <i>l/r</i></strong>:</dt> <dd><kbd>q</kbd> / <kbd>w</kbd></dd>
+                <dt><strong>navigate sprite <i>u/d</i></strong>:</dt> <dd><kbd>shift + q</kbd> / <kbd>shift + w</kbd></dd>
                 <dt><strong>navigate colours</strong>:</dt> <dd><kbd>1</kbd> / <kbd>2</kbd></dd>
                 <dt><strong>navigate tabs</strong>:</dt> <dd><kbd>+</kbd> / <kbd>-</kbd></dd>
                 <dt><strong>fullscreen</strong>:</dt> <dd><kbd>tab</kbd></dd>
                 <dt><strong>zoom</strong>:</dt> <dd><kbd>mousewheel</kbd></dd>
+                <dt><strong>zoom</strong>:</dt> <dd><kbd>shift + ,</kbd> / <kbd>shift + .</kbd></dd>
                 <dt><strong>flip y</strong>:</dt> <dd><kbd>f</kbd></dd>
                 <dt><strong>flip x</strong>:</dt> <dd><kbd>v</kbd></dd>
                 <dt><strong>rotate</strong>:</dt> <dd><kbd>r</kbd></dd>
@@ -577,6 +614,9 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>stamp w/ transparency</strong>:</dt> <dd><kbd>lctrl</kbd></dd>
                 <h6>select tool</h6>
                 <dt><strong>select sprites</strong>:</dt> <dd><kbd>shift + drag</kbd></dd>
+                <h6>shape tool</h6>
+                <dt><strong>toggle shape</strong>:</dt> <dd><kbd>leftclick on icon</kbd></dd>
+                <dt><strong>fill shape</strong>:</dt> <dd><kbd>ctrl</kbd></dd>
               </dl>
             </div>
 
@@ -585,6 +625,8 @@ function mt.__le(a, b) return a <= b end</code></pre>
               <h5><u>code editor</u></h5>
               <dl class="dl-horizontal">
                 <dt><strong>skip across words</strong>:</dt> <dd><kbd>ctrl + left</kbd> / <kbd>ctrl + right</kbd></dd>
+                <dt><strong>jump to start of line</strong>:</dt> <dd><kbd>ctrl + w</kbd></dd>
+                <dt><strong>jump to end of line</strong>:</dt> <dd><kbd>ctrl + e</kbd></dd>
                 <dt><strong>select</strong>:</dt> <dd><kbd>shift</kbd></dd>
                 <dt><strong>select word</strong>:</dt> <dd><kbd>double click</kbd></dd>
                 <dt><strong>cut</strong>:</dt> <dd><kbd>ctrl + x</kbd></dd>
@@ -592,8 +634,12 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>paste</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
                 <dt><strong>undo</strong>:</dt> <dd><kbd>ctrl + z</kbd></dd>
                 <dt><strong>redo</strong>:</dt> <dd><kbd>ctrl + y</kbd></dd>
+                <dt><strong>toggle commenting</strong>:</dt> <dd><kbd>ctrl + b</kbd></dd>
+                <dt><strong>next code tab</strong>:</dt> <dd><kbd>ctrl + tab</kbd></dd>
+                <dt><strong>previous code tab</strong>:</dt> <dd><kbd>ctrl + shift + tab</kbd></dd>
                 <dt><strong>indent</strong>:</dt> <dd><kbd>tab</kbd></dd>
                 <dt><strong>unindent</strong>:</dt> <dd><kbd>shift + tab</kbd></dd>
+                <dt><strong>auto-indent/end</strong>:</dt> <dd><kbd>shift + enter</kbd></dd>
                 <dt><strong>duplicate line</strong>:</dt> <dd><kbd>ctrl + d</kbd></dd>
                 <dt><strong>search</strong>:</dt> <dd><kbd>ctrl + f</kbd></dd>
                 <dt><strong>search across tabs</strong>:</dt> <dd><kbd>ctrl + h</kbd></dd>
@@ -603,9 +649,10 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>button glyphs</strong>:</dt> <dd><kbd>shift + l, r, u, d, x, o</kbd></dd>
                 <dt><strong>icons</strong>:</dt> <dd><kbd>shift + qwetyipasfghjkzcvbnm</kbd></dd>
                 <dt><strong>glyph mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
-                <dt><strong>toggle commenting</strong>:</dt> <dd><kbd>ctrl + b</kbd></dd>
-                <dt><strong>jump to start of line</strong>:</dt> <dd><kbd>ctrl + w</kbd></dd>
-                <dt><strong>jump to end of line</strong>:</dt> <dd><kbd>ctrl + e</kbd></dd>
+                <dt><strong>puny font mode</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
+                <dt><strong>hiragana mode</strong>:</dt> <dd><kbd>ctrl + j</kbd></dd>
+                <dt><strong>katakana mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
+
               </dl>
 
               <h5><u>sfx / music editor</u></h5>
@@ -621,6 +668,8 @@ function mt.__le(a, b) return a <= b end</code></pre>
                 <dt><strong>speed x4</strong>:</dt> <dd><kbd>shift</kbd></dd>
                 <dt><strong>release loop</strong>:</dt> <dd><kbd>a</kbd></dd>
                 <dt><strong>delete</strong>:</dt> <dd><kbd>backspace</kbd></dd>
+                <h6>sfx</h6>
+                <dt><strong>select all in note</strong>:</dt> <dd><kbd>doubleclick</kbd></dd>
                 <h6>effects</h6>
                 <dt><strong>0</strong> ::</dt> <dd>none</dd>
                 <dt><strong>1</strong> ::</dt> <dd>slide</dd>
