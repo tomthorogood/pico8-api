@@ -1,102 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="img/icon.png" rel="icon">
-    <title>pico-8 api</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="bootstrap" charset="utf-8">
-    <link rel="stylesheet" href="css/highlight/monokai.css">
-    <style type="text/css">
-      body {
-        background-image: url("img/bg.png");
-        background-repeat: repeat;
-      }
-      .nav-pills > li > a {
-        border-radius: 4px 4px 0 0;
-      }
-      .tab-content {
-        color: white;
-        background-color: #337ab7;
-        padding: 15px 15px 5px 15px;
-      }
-      div.tab-pane ul {
-        padding-left: 1.7rem;
-        padding-bottom: 1.7rem;
-      }
-      .api {
-        background-color: #fff;
-        border-radius: 5px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-      }
-      .footer {
-        background-color: #fff;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-    </style>
-    <script src="https://use.fontawesome.com/1452dd4c19.js"></script>
-  </head>
-  <body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="img/icon.png" rel="icon">
+		<title>pico-8 api</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="bootstrap" charset="utf-8">
+		<link rel="stylesheet" href="css/highlight/monokai.css">
+		<style type="text/css">
+			body {
+				background-image: url("img/bg.png");
+				background-repeat: repeat;
+			}
+			.nav-pills > li > a {
+				border-radius: 4px 4px 0 0;
+			}
+			.tab-content {
+				color: white;
+				background-color: #337ab7;
+				padding: 15px 15px 5px 15px;
+			}
+			div.tab-pane ul {
+				padding-left: 1.7rem;
+				padding-bottom: 1.7rem;
+			}
+			.api {
+				background-color: #fff;
+				border-radius: 5px;
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+			.footer {
+				background-color: #fff;
+				margin-top: 20px;
+				margin-bottom: 10px;
+			}
+		</style>
+		<script src="https://use.fontawesome.com/1452dd4c19.js"></script>
+	</head>
+	<body>
 
-    <!--
-      [ TOC ]
-      =======
+		<!--
+			[ TOC ]
+			=======
 
-      0x00. HEADER
-      0x01. NAVBAR
-      0x02. HOME
-      0x03. AUDIO
-      0x04. CART DATA
-      0x05. COROUTINES
-      0x06. GRAPHICS
-      0x07. INPUT
-      0x08. MAP
-      0x09. MATH
-      0x0A. MATH
-      0x0B. MEMORY
-      0x0C. PEEK / POKE
-      0x0D. PICO-8
-      0x0E. STRINGS
-      0x0F. TABLES
-      0x0F. KEYS
-        0x00. KEYS_0
-        0x01. KEYS_1
-    -->
+			0x00. HEADER
+			0x01. NAVBAR
+			0x02. HOME
+			0x03. AUDIO
+			0x04. CART DATA
+			0x05. COROUTINES
+			0x06. GRAPHICS
+			0x07. INPUT
+			0x08. MAP
+			0x09. MATH
+			0x0A. FLOW CONTROL
+			0x0B. MEMORY
+			0x0C. PEEK / POKE
+			0x0D. PICO-8
+			0x0E. STRINGS
+			0x0F. TABLES
+			0x10. KEYS
+				0x00. KEYS_0
+				0x01. KEYS_1
+		-->
 
-    <div id="content" class="container api">
-      <!-- HEADER -->
-      <div class="page-header">
-        <h1>pico-8 api cheatsheet</h1>
-      </div>
+		<div id="content" class="container api">
+			<!-- HEADER -->
+			<div class="page-header">
+				<h1>Pico-8 API Cheatsheet</h1>
+			</div>
 
-      <!-- NAVBAR -->
-      <ul class="nav nav-pills">
-        <!-- class="active" in li -->
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><img src="img/icon.png" height="12em" alt="Welcome"></a></li>
-        <li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab">audio</a></li>
-        <li role="presentation"><a href="#cartdata" aria-controls="data" role="tab" data-toggle="tab">cart data</a></li>
-        <li role="presentation"><a href="#coroutines" aria-controls="coroutines" role="tab" data-toggle="tab">coroutines</a></li>
-        <li role="presentation"><a href="#graphics" aria-controls="graphics" role="tab" data-toggle="tab">graphics</a></li>
-        <li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">input</a></li>
-        <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">map</a></li>
-        <li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">math</a></li>
-        <li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">memory</a></li>
-        <li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">peek / poke</a></li>
-        <li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">pico-8</a></li>
-        <li role="presentation"><a href="#strings" aria-controls="strings" role="tab" data-toggle="tab">strings</a></li>
-        <li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">tables</a></li>
-        <li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">[ keys ]</a></li>
-      </ul>
+			<!-- NAVBAR -->
+			<ul class="nav nav-pills">
+				<!-- class="active" in li -->
+				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><img src="img/icon.png" height="12em" alt="Welcome"></a></li>
+				<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab">audio</a></li>
+				<li role="presentation"><a href="#cartdata" aria-controls="data" role="tab" data-toggle="tab">cart data</a></li>
+				<li role="presentation"><a href="#coroutines" aria-controls="coroutines" role="tab" data-toggle="tab">coroutines</a></li>
+				<li role="presentation"><a href="#graphics" aria-controls="graphics" role="tab" data-toggle="tab">graphics</a></li>
+				<li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">input</a></li>
+				<li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">map</a></li>
+				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">math</a></li>
+				<li role="presentation"><a href="#flow" aria-controls="flow" role="tab" data-toggle="tab">flow control</a></li>
+				<li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">memory</a></li>
+				<li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">peek / poke</a></li>
+				<li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">pico-8</a></li>
+				<li role="presentation"><a href="#strings" aria-controls="strings" role="tab" data-toggle="tab">strings</a></li>
+				<li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">tables</a></li>
+				<li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">[ keys ]</a></li>
+			</ul>
 
-      <div class="tab-content clearfix">
-        <!-- HOME -->
-        <div role="tabpanel" class="tab-pane active" id="home">
-          <p><center><img src="img/icon.png" alt="" class="img-responsive"></center></p>
+			<div class="tab-content clearfix">
+				<!-- HOME -->
+				<div role="tabpanel" class="tab-pane active" id="home">
+					<p><center><img src="img/icon.png" alt="" class="img-responsive"></center></p>
 
-          <h6>pico-8 manpage</h6>
-          <pre><code class="bash"># version 0.2.0i
+					<h6>pico-8 manpage</h6>
+					<pre><code class="bash"># version 0.2.0i
 
 pico-8 [switches] [filename.p8] # run pico-8 from the system cli
 
@@ -120,49 +121,49 @@ pico-8 [switches] [filename.p8] # run pico-8 from the system cli
 -frameless b # set borderless window off (0) or on (1)
 -show_fps b # set fps display off (0) or on (1)</code></pre>
 
-          <h6>pico-8 specs</h6>
-          <pre><code class="markdown">- display: 128x128, fixed 16 colour palette
+					<h6>pico-8 specs</h6>
+					<pre><code class="markdown">- display: 128x128, fixed 16 colour palette
 - input: 6 buttons
 - cartridge size: 32k
 - sound: 4 channel, 64 definable chip blerps
 - code: lua, max 8192 tokens of code
 - sprites: single bank of 128 8x8 sprites + 128 shared
 - map: 128x32 8-bit cels + 128x32 shared</code></pre>
-        </div>
+				</div>
 
-        <!-- AUDIO -->
-        <div role="tabpanel" class="tab-pane fade" id="audio">
-          <p><center><img src="img/keyboard.png" alt="" class="img-responsive"></center></p>
+				<!-- AUDIO -->
+				<div role="tabpanel" class="tab-pane fade" id="audio">
+					<p><center><img src="img/keyboard.png" alt="" class="img-responsive"></center></p>
 
-          <h6>audio manipulation</h6>
-          <pre><code class="lua">music([n, [fade_len, [channel_mask]]]) -- play music; n = -1: stop
+					<h6>audio manipulation</h6>
+					<pre><code class="lua">music([n, [fade_len, [channel_mask]]]) -- play music; n = -1: stop
 sfx(n, [channel, [offset]]) -- play sfx; n = -1: stop in channel; n = -2: release loop in channel</code></pre>
-        </div>
+				</div>
 
-        <!-- CART DATA -->
-        <div role="tabpanel" class="tab-pane fade" id="cartdata">
-          <h6>cart data manipulation</h6>
-          <pre><code class="lua">cartdata(id) -- open cart data named id (once per execution!)
+				<!-- CART DATA -->
+				<div role="tabpanel" class="tab-pane fade" id="cartdata">
+					<h6>cart data manipulation</h6>
+					<pre><code class="lua">cartdata(id) -- open cart data named id (once per execution!)
 dget(idx) -- get number at index
 dset(idx, val) -- set number at index to value</code></pre>
-        </div>
+				</div>
 
-        <!-- COROUTINES -->
-        <div role="tabpanel" class="tab-pane fade" id="coroutines">
-          <h6>coroutines :: <u><a href="http://www.lexaloffle.com/bbs/?tid=3458" target="_blank" style="color: white;">view coroutines thread</a></u></h6>
-          <pre><code class="lua">cocreate(f) -- returns a coroutine that executes f
+				<!-- COROUTINES -->
+				<div role="tabpanel" class="tab-pane fade" id="coroutines">
+					<h6>coroutines :: <u><a href="http://www.lexaloffle.com/bbs/?tid=3458" target="_blank" style="color: white;">view coroutines thread</a></u></h6>
+					<pre><code class="lua">cocreate(f) -- returns a coroutine that executes f
 coresume(c) -- resume coroutine c execution
 costatus(c) -- returns true if c is still executing, false otherwise
 yield() -- use inside a coroutine; makes a coroutine pause execution until next resume</code></pre>
-          <p><center></center></p>
-        </div>
+					<p><center></center></p>
+				</div>
 
-        <!-- GRAPHICS -->
-        <div role="tabpanel" class="tab-pane fade" id="graphics">
-          <p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p>
+				<!-- GRAPHICS -->
+				<div role="tabpanel" class="tab-pane fade" id="graphics">
+					<p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p>
 
-          <h6>graphics manipulation</h6>
-          <pre><code class="lua">camera([x, y]) -- set camera position
+					<h6>graphics manipulation</h6>
+					<pre><code class="lua">camera([x, y]) -- set camera position
 circ(x, y, r, [col]) -- draw circle
 circfill(x, y, r, [col]) -- draw filled circle
 clip([x, y, w, h]) -- set screen clipping region
@@ -187,8 +188,8 @@ sset(x, y, [col]) -- set spritesheet pixel colour
 sspr(sx, sy, sw, sh, dx, dy, [dw, dh], [flip_x], [flip_y]) -- draw texture from spritesheet
 tline(x0, y0, x1, y1, mx, my, [mdx], [mdy]) -- Draws a textured line between two points, sampling the map for data
 </code></pre>
-          <h6>fillp() mask</h6>
-          <pre><code>.-----------------------.
+					<h6>fillp() mask</h6>
+					<pre><code>.-----------------------.
 |32768|16384| 8192| 4096|
 |-----|-----|-----|-----|
 | 2048| 1024| 512 | 256 |
@@ -197,37 +198,37 @@ tline(x0, y0, x1, y1, mx, my, [mdx], [mdy]) -- Draws a textured line between two
 |-----|-----|-----|-----|
 |  8  |  4  |  2  |  1  |
 '-----------------------'</code></pre>
-        </div>
+				</div>
 
-        <!-- INPUT -->
-        <div role="tabpanel" class="tab-pane fade" id="input">
-          <p><center><img style="border-radius: 5px;" src="img/input.png" alt="" class="img-responsive"></center></p>
+				<!-- INPUT -->
+				<div role="tabpanel" class="tab-pane fade" id="input">
+					<p><center><img style="border-radius: 5px;" src="img/input.png" alt="" class="img-responsive"></center></p>
 
-          <h6>input manipulation</h6>
-          <pre><code class="lua">btn([i, [p]]) -- get button i state for player p
+					<h6>input manipulation</h6>
+					<pre><code class="lua">btn([i, [p]]) -- get button i state for player p
 btnp([i, [p]]) -- true when the button was not pressed the last frame; delays 4 frames after button held for 15 frames</code></pre>
 					
 					<h6>Custom delays</h6>
-          <pre><code class="lua">-- Button check time delays; measured in frames @ 30FPS
+					<pre><code class="lua">-- Button check time delays; measured in frames @ 30FPS
 -- The default values of 15 and 4 will be used if a value of 0 is given for delay
 poke(0x5F5C, delay) -- sets the initial delay before repeating; 255 will turn off repeat completely
 poke(0x5F5D, delay) -- sets the repeating delay.
 </code></pre>
-        </div>
+				</div>
 
-        <!-- MAP -->
-        <div role="tabpanel" class="tab-pane fade" id="map">
-          <h6>map manipulation</h6>
-          <pre><code class="lua">map(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- draw map; layers from flags; sprite 0 is empty
+				<!-- MAP -->
+				<div role="tabpanel" class="tab-pane fade" id="map">
+					<h6>map manipulation</h6>
+					<pre><code class="lua">map(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- draw map; layers from flags; sprite 0 is empty
 mapdraw(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- same as 'map()'; draw map
 mget(x, y) -- get map value
 mset(x, y, v) -- set map value</code></pre>
-        </div>
+				</div>
 
-        <!-- MATH -->
-        <div role="tabpanel" class="tab-pane fade" id="math">
-          <h6>math functions</h6>
-          <pre><code class="lua">-32768.0 .. 32767.99 -- numeric representation range
+				<!-- MATH -->
+				<div role="tabpanel" class="tab-pane fade" id="math">
+					<h6>math functions</h6>
+					<pre><code class="lua">-32768.0 .. 32767.99 -- numeric representation range
 abs(x) -- x absolute value
 atan2(dx, dy) -- convert (dx, dy) to an angle in [0..1]
 band(x, y) -- bitwise conjunction
@@ -270,10 +271,9 @@ x >> n&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicat
 x >>> n -- logical right shift (zeros comes in from the left)
 x &lt;&lt;&gt; n -- rotate all bits in x left by n places
 x >>< n -- rotate all bits in x right by n places</code></pre>
-   
 
-          <h6>operators</h6>
-          <pre><code class="lua">a = b -- assignment
+					<h6>operators</h6>
+					<pre><code class="lua">a = b -- assignment
 a + b -- sum
 a - b -- sub
 a * b -- mul
@@ -297,9 +297,13 @@ not a -- boolean negation
 a and b -- boolean conjunction
 a or b -- boolean disjunction
 (a) -- operation delimiters</code></pre>
+				</div>
 
-          <h6>flow control</h6>
-          <pre><code class="lua">::label:: -- label
+
+				<!-- PEEK / POKE -->
+				<div role="tabpanel" class="tab-pane fade" id="flow">
+					<h6>flow control</h6>
+					<pre><code class="lua">::label:: -- label
 goto label -- jump
 
 if (&lt;condition&gt;) -- inline if
@@ -331,25 +335,25 @@ end
 for &lt;key&gt;, &lt;value&gt; in pairs(&lt;table&gt;) do
  -- for block
 end</code></pre>
-        </div>
+				</div>
 
-        <!-- MEMORY -->
-        <div role="tabpanel" class="tab-pane fade" id="memory">
-          <h6>memory manipulation</h6>
-          <pre><code class="lua">cstore(dest_addr, src_addr, len, [filename]) -- copy bytes from ram to rom [load from filename; works with multi-cart export]
+				<!-- MEMORY -->
+				<div role="tabpanel" class="tab-pane fade" id="memory">
+					<h6>memory manipulation</h6>
+					<pre><code class="lua">cstore(dest_addr, src_addr, len, [filename]) -- copy bytes from ram to rom [load from filename; works with multi-cart export]
 memcpy(dest_addr, src_addr, len) -- copy bytes
 memset(dest_addr, val, len) -- set len bytes to val
 peek(addr) -- read byte in ram address
 poke(addr, val) -- write val in ram address
 reload(dest_addr, src_addr, len, [filename]) -- copy bytes from rom to ram [load from filename; works with multi-cart export]</code></pre>
 
-          <h6>memory types</h6>
-          <pre><code class="markdown">1. base ram (32kB)
+					<h6>memory types</h6>
+					<pre><code class="markdown">1. base ram (32kB)
 2. cart rom
 3. lua ram (1MB)</code></pre>
 
-          <h6>ram layout</h6>
-          <pre><code class="markdown">0x0    - gfx
+					<h6>ram layout</h6>
+					<pre><code class="markdown">0x0    - gfx
 0x1000 - gfx2/map2 (shared)
 0x2000 - map
 0x3000 - gfx_props
@@ -361,20 +365,20 @@ reload(dest_addr, src_addr, len, [filename]) -- copy bytes from rom to ram [load
 0x5f40 - hardware state
 0x5f80 - gpio pins (128 bytes)
 0x6000 - screen (8k)</code></pre>
-        </div>
+				</div>
 
-        <!-- PEEK / POKE -->
-        <div role="tabpanel" class="tab-pane fade" id="peekpoke">
-          <h6>devkit input mode</h6>
-          <pre><code class="lua">poke(0x5f2d, 1) -- enable devkit input mode
+				<!-- PEEK / POKE -->
+				<div role="tabpanel" class="tab-pane fade" id="peekpoke">
+					<h6>devkit input mode</h6>
+					<pre><code class="lua">poke(0x5f2d, 1) -- enable devkit input mode
 stat(30) -- read keyboard had input (bool); repeats every 4 frames after key held for 15 frames
 stat(31) -- read keyboard character
 stat(32) -- read x coord
 stat(33) -- read y coord
 stat(34) -- read button bitmask; 1 = primary, 2 = secondary, 4 = middle</code></pre>
 
-          <h6>extra graphics modes</h6>
-          <pre><code class="lua">poke(0x5f2c, 0) -- standard, 128x128
+					<h6>extra graphics modes</h6>
+					<pre><code class="lua">poke(0x5f2c, 0) -- standard, 128x128
 poke(0x5f2c, 1) -- horizontal stretch, 64x128
 poke(0x5f2c, 2) -- vertical stretch, 128x64
 poke(0x5f2c, 3) -- zoomed, 64x64
@@ -383,24 +387,24 @@ poke(0x5f2c, 5) -- mirror left half
 poke(0x5f2c, 6) -- mirror top half
 poke(0x5f2c, 7) -- mirror top-left quarter</code></pre>
 
-          <h6>raspberry pi / pocketchip gpio</h6>
-          <pre><code class="lua">-- run pico-8 as root ("sudo pico-8")
+					<h6>raspberry pi / pocketchip gpio</h6>
+					<pre><code class="lua">-- run pico-8 as root ("sudo pico-8")
 -- 128 pin values in the range [0..255]
 poke(0x5f80, value) -- send value to gpio0
 peek(0x5f81) -- get value from gpio1
 -- et cetera</code></pre>
-        </div>
+				</div>
 
-        <!-- PICO-8 -->
-        <div role="tabpanel" class="tab-pane fade" id="pico8">
-          <h6>execution flow</h6>
-          <pre><code class="lua">_draw() -- called once per visible frame
+				<!-- PICO-8 -->
+				<div role="tabpanel" class="tab-pane fade" id="pico8">
+					<h6>execution flow</h6>
+					<pre><code class="lua">_draw() -- called once per visible frame
 _init() -- called once on program startup
 _update() -- called once per update at 30fps
 _update60() -- called once per update at 60fps</code></pre>
 
-          <h6>command line interface</h6>
-          <pre><code class="lua">assert(condition) -- verify that condition is true
+					<h6>command line interface</h6>
+					<pre><code class="lua">assert(condition) -- verify that condition is true
 cd .. -- change to parent directory
 cd [dirname] -- change directory
 dir() -- list items
@@ -434,8 +438,8 @@ stat(x) -- read some execution values, read below
 time() -- returns seconds since last reboot
 type(v) -- returns type of v: number, string or table</code></pre>
 
-          <h6>stats</h6>
-          <pre><code class="lua">stat(0) -- memory usage in [0..1024]
+					<h6>stats</h6>
+					<pre><code class="lua">stat(0) -- memory usage in [0..1024]
 stat(1) -- cpu usage; 1.0 == 100% cpu at 30fps
 stat(4) -- clipboard; after user pressed ctrl-v
 stat([16..19]) -- index of playing sfx on channels [0..3]
@@ -446,8 +450,8 @@ stat(32) -- mouse x coord; see "peek / poke" tab
 stat(33) -- mouse y coord; see "peek / poke" tab
 stat(34) -- mouse button bitmask; see "peek / poke" tab</code></pre>
 
-          <h6>debugging</h6>
-          <pre><code class="lua">-- After running the game with <kbd>ctrl + r</kbd>, press <kbd>escape</kbd> to pause execution
+					<h6>debugging</h6>
+					<pre><code class="lua">-- After running the game with <kbd>ctrl + r</kbd>, press <kbd>escape</kbd> to pause execution
 . -- Entering a '.' into the console will advance the game to the next frame
 <kbd>enter</kbd> -- Continue entering the '.' character or simply press <kbd>enter</kbd>
 print(player.x) -- Show the current, live x value of the player. Game does not cease execution, & updates each frame!
@@ -455,26 +459,26 @@ print(player.x) -- Show the current, live x value of the player. Game does not c
 resume() -- The 'resume' function will return the game to a normal running state.
 </code></pre>
 
-          <h6>javascript</h6>
-          <pre><code class="javascript">pico8_gpio[] // read and write gpio pins
+					<h6>javascript</h6>
+					<pre><code class="javascript">pico8_gpio[] // read and write gpio pins
 pico8_buttons[] // bitfields for player input</code></pre>
 
-          <h6>private functions (use carefully)</h6>
-          <pre><code class="lua">_get_frames_skipped() -- used automatically by _mainloop()
+					<h6>private functions (use carefully)</h6>
+					<pre><code class="lua">_get_frames_skipped() -- used automatically by _mainloop()
 _get_menu_item_selected(n) -- returns true or false if the n-th menu item is selected; n in [1..5]; used automatically by _mainloop()
 _mainloop() -- main pico-8's "while true"
 _pausemenu[n].callback() -- execute the n-th menu item's callback; n in [1..5]; used automatically by _mainloop()
 _set_mainloop_exists(n) -- ?
 _update_buttons() -- used automatically by _mainloop()
 holdframe() -- used automatically by _mainloop()</code></pre>
-        </div>
+				</div>
 
-        <!-- STRINGS -->
-        <div role="tabpanel" class="tab-pane fade" id="strings">
-          <p><center><img style="border-radius: 5px;" src="img/glyphs.png" alt="" class="img-responsive"></center></p>
+				<!-- STRINGS -->
+				<div role="tabpanel" class="tab-pane fade" id="strings">
+					<p><center><img style="border-radius: 5px;" src="img/glyphs.png" alt="" class="img-responsive"></center></p>
 
-          <h6>string manipulation</h6>
-          <pre><code class="lua">#s -- string length
+					<h6>string manipulation</h6>
+					<pre><code class="lua">#s -- string length
 "three " .. 4 -- string concatenation
 sub(str, from, [to]) -- substring
 tostr(val, [hex]) -- convert val to a string; if hex is true and val is a number, output format is "0x0000.0000"
@@ -482,20 +486,20 @@ tonum(str) -- cast parseable str to number; nil if str isn't a number; "0xAF" fo
 "123.45" + 0 -- alternative to tonum
 </code></pre>
 
-          <h6>8-bit character set</h6>
-          <pre><code class="lua">chr(num) -- gets a string character from a value[0..255]
+					<h6>8-bit character set</h6>
+					<pre><code class="lua">chr(num) -- gets a string character from a value[0..255]
 ord(str) -- gets the index [0..255] from a character
 print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
 
 
-          <h6>special characters</h6>
-          <pre><code class="lua">print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
-        </div>
+					<h6>special characters</h6>
+					<pre><code class="lua">print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
+				</div>
 
-        <!-- TABLES -->
-        <div role="tabpanel" class="tab-pane fade" id="tables">
-          <h6>table manipulation</h6>
-          <pre><code class="lua">add(t, v) -- add v to t
+				<!-- TABLES -->
+				<div role="tabpanel" class="tab-pane fade" id="tables">
+					<h6>table manipulation</h6>
+					<pre><code class="lua">add(t, v) -- add v to t
 all(t) -- used in 'for v in all(t)' loops
 count(t) -- returns number of elements in the table
 del(t, v) -- delete first instance of v in t
@@ -507,12 +511,12 @@ unpack(t) -- returns all entries in a table as arguments
 rnd(t) -- returns a random value from a table
 </code></pre>
 
-          <h6>metatables :: <u><a href="http://www.lexaloffle.com/bbs/?tid=3342" target="_blank" style="color: white;">view metatables thread</a></u></h6>
-          <pre><code class="lua">mt = {} -- init metatable
+					<h6>metatables :: <u><a href="http://www.lexaloffle.com/bbs/?tid=3342" target="_blank" style="color: white;">view metatables thread</a></u></h6>
+					<pre><code class="lua">mt = {} -- init metatable
 setmetatable(t, mt) -- set metatable mt to table t</code></pre>
 
-          <h6>metatables :: special keys</h6>
-          <pre><code class="lua">-- object oriented programming; invoked as 't:foo()' / 't:bar()'
+					<h6>metatables :: special keys</h6>
+					<pre><code class="lua">-- object oriented programming; invoked as 't:foo()' / 't:bar()'
 fun = {}
 function fun.foo(t) dosomething() end
 function fun.bar(t) dosomethingmore() end
@@ -537,8 +541,8 @@ function mt.__tostring(t) return tostring(t) end
 -- table length; returned by '#t'
 function mt.__len(t) return #t end</code></pre>
 
-          <h6>metatables :: mathematic operators</h6>
-          <pre><code class="lua">-- unary minus; returned by '-t'
+					<h6>metatables :: mathematic operators</h6>
+					<pre><code class="lua">-- unary minus; returned by '-t'
 function mt.__unm(t) return -t end
 
 -- addition; returned by 'a + b'
@@ -562,8 +566,8 @@ function mt.__pow(a, b) return a ^ b end
 -- concatenation; returned by 'a .. b'
 function mt.__concat(a, b) return a .. b end</code></pre>
 
-          <h6>metatables :: comparison operators</h6>
-          <pre><code class="lua">-- check for equality; returned by 'a == b'
+					<h6>metatables :: comparison operators</h6>
+					<pre><code class="lua">-- check for equality; returned by 'a == b'
 function mt.__eq(a, b) return a == b end
 
 -- check for less-than; returned by 'a < b'
@@ -571,146 +575,146 @@ function mt.__lt(a, b) return a < b end
 
 -- check for less-than-or-equal; returned by 'a <= b'
 function mt.__le(a, b) return a <= b end</code></pre>
-        </div>
+				</div>
 
-        <!-- KEYS -->
-        <div role="tabpanel" class="tab-pane fade" id="keys">
-          <div class="row">
-            <!-- KEYS_0 -->
-            <div class="col-md-6">
-              <h5><u>general</u></h5>
-              <dl class="dl-horizontal">
-                <dt><strong>fullscreen</strong>:</dt> <dd><kbd>alt + enter</kbd> / <kbd>cmd + f</kbd></dd>
-                <dt><strong>quit</strong>:</dt> <dd><kbd>alt + f4</kbd> / <kbd>cmd + q</kbd></dd>
-                <dt><strong>reload and run</strong>:</dt> <dd><kbd>ctrl + r</kbd></dd>
-                <dt><strong>save</strong>:</dt> <dd><kbd>ctrl + s</kbd></dd>
-                <dt><strong>cpu graph</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
-                <dt><strong>mute / unmute</strong>:</dt> <dd><kbd>ctrl + m</kbd></dd>
-                <dt><strong>show fps</strong>:</dt> <dd><kbd>ctrl + 1</kbd></dd>
-                <dt><strong>screenshot</strong>:</dt> <dd><kbd>ctrl + 6</kbd> / <kbd>f6</kbd> / <kbd>f1</kbd></dd>
-                <dt><strong>cart img</strong>:</dt> <dd><kbd>ctrl + 7</kbd> / <kbd>f7</kbd> / <kbd>f2</kbd></dd>
-                <dt><strong>start video</strong>:</dt> <dd><kbd>ctrl + 8</kbd> / <kbd>f8</kbd> / <kbd>f3</kbd></dd>
-                <dt><strong>save video</strong>:</dt> <dd><kbd>ctrl + 9</kbd> / <kbd>f9</kbd> / <kbd>f4</kbd></dd>
-                <dt><strong>keyboard cursor</strong>:</dt> <dd><kbd>f10</kbd></dd>
-                <dt><strong>navigate editors</strong>:</dt> <dd><kbd>alt + right</kbd> / <kbd>alt + left</kbd></dd>
-                <dt><strong>cli completion</strong>:</dt> <dd><kbd>tab</kbd></dd>
-              </dl>
+				<!-- KEYS -->
+				<div role="tabpanel" class="tab-pane fade" id="keys">
+					<div class="row">
+						<!-- KEYS_0 -->
+						<div class="col-md-6">
+							<h5><u>general</u></h5>
+							<dl class="dl-horizontal">
+								<dt><strong>fullscreen</strong>:</dt> <dd><kbd>alt + enter</kbd> / <kbd>cmd + f</kbd></dd>
+								<dt><strong>quit</strong>:</dt> <dd><kbd>alt + f4</kbd> / <kbd>cmd + q</kbd></dd>
+								<dt><strong>reload and run</strong>:</dt> <dd><kbd>ctrl + r</kbd></dd>
+								<dt><strong>save</strong>:</dt> <dd><kbd>ctrl + s</kbd></dd>
+								<dt><strong>cpu graph</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
+								<dt><strong>mute / unmute</strong>:</dt> <dd><kbd>ctrl + m</kbd></dd>
+								<dt><strong>show fps</strong>:</dt> <dd><kbd>ctrl + 1</kbd></dd>
+								<dt><strong>screenshot</strong>:</dt> <dd><kbd>ctrl + 6</kbd> / <kbd>f6</kbd> / <kbd>f1</kbd></dd>
+								<dt><strong>cart img</strong>:</dt> <dd><kbd>ctrl + 7</kbd> / <kbd>f7</kbd> / <kbd>f2</kbd></dd>
+								<dt><strong>start video</strong>:</dt> <dd><kbd>ctrl + 8</kbd> / <kbd>f8</kbd> / <kbd>f3</kbd></dd>
+								<dt><strong>save video</strong>:</dt> <dd><kbd>ctrl + 9</kbd> / <kbd>f9</kbd> / <kbd>f4</kbd></dd>
+								<dt><strong>keyboard cursor</strong>:</dt> <dd><kbd>f10</kbd></dd>
+								<dt><strong>navigate editors</strong>:</dt> <dd><kbd>alt + right</kbd> / <kbd>alt + left</kbd></dd>
+								<dt><strong>cli completion</strong>:</dt> <dd><kbd>tab</kbd></dd>
+							</dl>
 
-              <h5><u>splore</u></h5>
-              <dl class="dl-horizontal">
-                <dt><strong>navigate lists</strong>:</dt> <dd><kbd>left</kbd> / <kbd>right</kbd></dd>
-                <dt><strong>navigate carts</strong>:</dt> <dd><kbd>up</kbd> / <kbd>down</kbd> / <kbd>home</kbd> / <kbd>end</kbd> / <kbd>pageup</kbd> / <kbd>pagedown</kbd></dd>
-                <dt><strong>launch cart</strong>:</dt> <dd><kbd>x</kbd> / <kbd>o</kbd> / <kbd>menu</kbd></dd>
-                <dt><strong>favourite cart</strong>:</dt> <dd><kbd>f</kbd></dd>
-              </dl>
+							<h5><u>splore</u></h5>
+							<dl class="dl-horizontal">
+								<dt><strong>navigate lists</strong>:</dt> <dd><kbd>left</kbd> / <kbd>right</kbd></dd>
+								<dt><strong>navigate carts</strong>:</dt> <dd><kbd>up</kbd> / <kbd>down</kbd> / <kbd>home</kbd> / <kbd>end</kbd> / <kbd>pageup</kbd> / <kbd>pagedown</kbd></dd>
+								<dt><strong>launch cart</strong>:</dt> <dd><kbd>x</kbd> / <kbd>o</kbd> / <kbd>menu</kbd></dd>
+								<dt><strong>favourite cart</strong>:</dt> <dd><kbd>f</kbd></dd>
+							</dl>
 
-              <h5><u>sprite / map editor</u></h5>
-              <dl class="dl-horizontal">
-                <dt><strong>undo</strong>:</dt> <dd><kbd>ctrl + z</kbd></dd>
-                <dt><strong>copy (bbs support)</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
-                <dt><strong>paste (bbs support)</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
-                <dt><strong>pan</strong>:</dt> <dd><kbd>space</kbd> / <kbd>mmb</kbd></dd>
-                <dt><strong>navigate sprite <i>l/r</i></strong>:</dt> <dd><kbd>q</kbd> / <kbd>w</kbd></dd>
-                <dt><strong>navigate sprite <i>u/d</i></strong>:</dt> <dd><kbd>shift + q</kbd> / <kbd>shift + w</kbd></dd>
-                <dt><strong>navigate colours</strong>:</dt> <dd><kbd>1</kbd> / <kbd>2</kbd></dd>
-                <dt><strong>navigate tabs</strong>:</dt> <dd><kbd>+</kbd> / <kbd>-</kbd></dd>
-                <dt><strong>fullscreen</strong>:</dt> <dd><kbd>tab</kbd></dd>
-                <dt><strong>zoom</strong>:</dt> <dd><kbd>mousewheel</kbd></dd>
-                <dt><strong>zoom</strong>:</dt> <dd><kbd>shift + ,</kbd> / <kbd>shift + .</kbd></dd>
-                <dt><strong>flip y</strong>:</dt> <dd><kbd>f</kbd></dd>
-                <dt><strong>flip x</strong>:</dt> <dd><kbd>v</kbd></dd>
-                <dt><strong>rotate</strong>:</dt> <dd><kbd>r</kbd></dd>
-                <dt><strong>move</strong>:</dt> <dd><kbd>cursors</kbd></dd>
-                <h6>draw tool</h6>
-                <dt><strong>replace colour</strong>:</dt> <dd><kbd>lctrl</kbd></dd>
-                <dt><strong>eyedropper</strong>:</dt> <dd><kbd>rmb</kbd></dd>
-                <h6>stamp tool</h6>
-                <dt><strong>stamp w/ transparency</strong>:</dt> <dd><kbd>lctrl</kbd></dd>
-                <h6>select tool</h6>
-                <dt><strong>select sprites</strong>:</dt> <dd><kbd>shift + drag</kbd></dd>
-                <h6>shape tool</h6>
-                <dt><strong>toggle shape</strong>:</dt> <dd><kbd>leftclick on icon</kbd></dd>
-                <dt><strong>fill shape</strong>:</dt> <dd><kbd>ctrl</kbd></dd>
-              </dl>
-            </div>
+							<h5><u>sprite / map editor</u></h5>
+							<dl class="dl-horizontal">
+								<dt><strong>undo</strong>:</dt> <dd><kbd>ctrl + z</kbd></dd>
+								<dt><strong>copy (bbs support)</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
+								<dt><strong>paste (bbs support)</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
+								<dt><strong>pan</strong>:</dt> <dd><kbd>space</kbd> / <kbd>mmb</kbd></dd>
+								<dt><strong>navigate sprite <i>l/r</i></strong>:</dt> <dd><kbd>q</kbd> / <kbd>w</kbd></dd>
+								<dt><strong>navigate sprite <i>u/d</i></strong>:</dt> <dd><kbd>shift + q</kbd> / <kbd>shift + w</kbd></dd>
+								<dt><strong>navigate colours</strong>:</dt> <dd><kbd>1</kbd> / <kbd>2</kbd></dd>
+								<dt><strong>navigate tabs</strong>:</dt> <dd><kbd>+</kbd> / <kbd>-</kbd></dd>
+								<dt><strong>fullscreen</strong>:</dt> <dd><kbd>tab</kbd></dd>
+								<dt><strong>zoom</strong>:</dt> <dd><kbd>mousewheel</kbd></dd>
+								<dt><strong>zoom</strong>:</dt> <dd><kbd>shift + ,</kbd> / <kbd>shift + .</kbd></dd>
+								<dt><strong>flip y</strong>:</dt> <dd><kbd>f</kbd></dd>
+								<dt><strong>flip x</strong>:</dt> <dd><kbd>v</kbd></dd>
+								<dt><strong>rotate</strong>:</dt> <dd><kbd>r</kbd></dd>
+								<dt><strong>move</strong>:</dt> <dd><kbd>cursors</kbd></dd>
+								<h6>draw tool</h6>
+								<dt><strong>replace colour</strong>:</dt> <dd><kbd>lctrl</kbd></dd>
+								<dt><strong>eyedropper</strong>:</dt> <dd><kbd>rmb</kbd></dd>
+								<h6>stamp tool</h6>
+								<dt><strong>stamp w/ transparency</strong>:</dt> <dd><kbd>lctrl</kbd></dd>
+								<h6>select tool</h6>
+								<dt><strong>select sprites</strong>:</dt> <dd><kbd>shift + drag</kbd></dd>
+								<h6>shape tool</h6>
+								<dt><strong>toggle shape</strong>:</dt> <dd><kbd>leftclick on icon</kbd></dd>
+								<dt><strong>fill shape</strong>:</dt> <dd><kbd>ctrl</kbd></dd>
+							</dl>
+						</div>
 
-            <!-- KEYS_1 -->
-            <div class="col-md-6">
-              <h5><u>code editor</u></h5>
-              <dl class="dl-horizontal">
-                <dt><strong>skip across words</strong>:</dt> <dd><kbd>ctrl + left</kbd> / <kbd>ctrl + right</kbd></dd>
-                <dt><strong>jump to start of line</strong>:</dt> <dd><kbd>ctrl + w</kbd></dd>
-                <dt><strong>jump to end of line</strong>:</dt> <dd><kbd>ctrl + e</kbd></dd>
-                <dt><strong>select</strong>:</dt> <dd><kbd>shift</kbd></dd>
-                <dt><strong>select word</strong>:</dt> <dd><kbd>double click</kbd></dd>
-                <dt><strong>cut</strong>:</dt> <dd><kbd>ctrl + x</kbd></dd>
-                <dt><strong>copy</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
-                <dt><strong>paste</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
-                <dt><strong>undo</strong>:</dt> <dd><kbd>ctrl + z</kbd></dd>
-                <dt><strong>redo</strong>:</dt> <dd><kbd>ctrl + y</kbd></dd>
-                <dt><strong>toggle commenting</strong>:</dt> <dd><kbd>ctrl + b</kbd></dd>
-                <dt><strong>next code tab</strong>:</dt> <dd><kbd>ctrl + tab</kbd></dd>
-                <dt><strong>previous code tab</strong>:</dt> <dd><kbd>ctrl + shift + tab</kbd></dd>
-                <dt><strong>indent</strong>:</dt> <dd><kbd>tab</kbd></dd>
-                <dt><strong>unindent</strong>:</dt> <dd><kbd>shift + tab</kbd></dd>
-                <dt><strong>auto-indent/end</strong>:</dt> <dd><kbd>shift + enter</kbd></dd>
-                <dt><strong>duplicate line</strong>:</dt> <dd><kbd>ctrl + d</kbd></dd>
-                <dt><strong>search</strong>:</dt> <dd><kbd>ctrl + f</kbd></dd>
-                <dt><strong>search across tabs</strong>:</dt> <dd><kbd>ctrl + h</kbd></dd>
-                <dt><strong>repeat search</strong>:</dt> <dd><kbd>ctrl + g</kbd></dd>
-                <dt><strong>navigate functions</strong>:</dt> <dd><kbd>alt + up</kbd> / <kbd>alt + down</kbd></dd>
-                <dt><strong>start / end of code</strong>:</dt> <dd><kbd>ctrl + up</kbd> / <kbd>ctrl + down</kbd></dd>
-                <dt><strong>button glyphs</strong>:</dt> <dd><kbd>shift + l, r, u, d, x, o</kbd></dd>
-                <dt><strong>icons</strong>:</dt> <dd><kbd>shift + qwetyipasfghjkzcvbnm</kbd></dd>
-                <dt><strong>glyph mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
-                <dt><strong>puny font mode</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
-                <dt><strong>hiragana mode</strong>:</dt> <dd><kbd>ctrl + j</kbd></dd>
-                <dt><strong>katakana mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
+						<!-- KEYS_1 -->
+						<div class="col-md-6">
+							<h5><u>code editor</u></h5>
+							<dl class="dl-horizontal">
+								<dt><strong>skip across words</strong>:</dt> <dd><kbd>ctrl + left</kbd> / <kbd>ctrl + right</kbd></dd>
+								<dt><strong>jump to start of line</strong>:</dt> <dd><kbd>ctrl + w</kbd></dd>
+								<dt><strong>jump to end of line</strong>:</dt> <dd><kbd>ctrl + e</kbd></dd>
+								<dt><strong>select</strong>:</dt> <dd><kbd>shift</kbd></dd>
+								<dt><strong>select word</strong>:</dt> <dd><kbd>double click</kbd></dd>
+								<dt><strong>cut</strong>:</dt> <dd><kbd>ctrl + x</kbd></dd>
+								<dt><strong>copy</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
+								<dt><strong>paste</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
+								<dt><strong>undo</strong>:</dt> <dd><kbd>ctrl + z</kbd></dd>
+								<dt><strong>redo</strong>:</dt> <dd><kbd>ctrl + y</kbd></dd>
+								<dt><strong>toggle commenting</strong>:</dt> <dd><kbd>ctrl + b</kbd></dd>
+								<dt><strong>next code tab</strong>:</dt> <dd><kbd>ctrl + tab</kbd></dd>
+								<dt><strong>previous code tab</strong>:</dt> <dd><kbd>ctrl + shift + tab</kbd></dd>
+								<dt><strong>indent</strong>:</dt> <dd><kbd>tab</kbd></dd>
+								<dt><strong>unindent</strong>:</dt> <dd><kbd>shift + tab</kbd></dd>
+								<dt><strong>auto-indent/end</strong>:</dt> <dd><kbd>shift + enter</kbd></dd>
+								<dt><strong>duplicate line</strong>:</dt> <dd><kbd>ctrl + d</kbd></dd>
+								<dt><strong>search</strong>:</dt> <dd><kbd>ctrl + f</kbd></dd>
+								<dt><strong>search across tabs</strong>:</dt> <dd><kbd>ctrl + h</kbd></dd>
+								<dt><strong>repeat search</strong>:</dt> <dd><kbd>ctrl + g</kbd></dd>
+								<dt><strong>navigate functions</strong>:</dt> <dd><kbd>alt + up</kbd> / <kbd>alt + down</kbd></dd>
+								<dt><strong>start / end of code</strong>:</dt> <dd><kbd>ctrl + up</kbd> / <kbd>ctrl + down</kbd></dd>
+								<dt><strong>button glyphs</strong>:</dt> <dd><kbd>shift + l, r, u, d, x, o</kbd></dd>
+								<dt><strong>icons</strong>:</dt> <dd><kbd>shift + qwetyipasfghjkzcvbnm</kbd></dd>
+								<dt><strong>glyph mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
+								<dt><strong>puny font mode</strong>:</dt> <dd><kbd>ctrl + p</kbd></dd>
+								<dt><strong>hiragana mode</strong>:</dt> <dd><kbd>ctrl + j</kbd></dd>
+								<dt><strong>katakana mode</strong>:</dt> <dd><kbd>ctrl + k</kbd></dd>
 
-              </dl>
+							</dl>
 
-              <h5><u>sfx / music editor</u></h5>
-              <dl class="dl-horizontal">
-                <dt><strong>play / pause</strong>:</dt> <dd><kbd>space</kbd></dd>
-                <dt><strong>copy</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
-                <dt><strong>paste</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
-                <dt><strong>set all notes</strong>:</dt> <dd><kbd>shift + lmb</kbd></dd>
-                <dt><strong>modify speed</strong>:</dt> <dd><kbd>&lt;</kbd> / <kbd>&gt;</kbd></dd>
-                <dt><strong>navigate</strong>:</dt> <dd><kbd>home</kbd>, <kbd>end</kbd>, <kbd>pageup</kbd>, <kbd>pagedown</kbd>, <kbd>mousewheel</kbd></dd>
-                <dt><strong>navigate patterns</strong>:</dt> <dd><kbd>+</kbd> / <kbd>-</kbd></dd>
-                <dt><strong>snap to Cm pentatonic</strong>:</dt> <dd><kbd>ctrl</kbd></dd>
-                <dt><strong>speed x4</strong>:</dt> <dd><kbd>shift</kbd></dd>
-                <dt><strong>release loop</strong>:</dt> <dd><kbd>a</kbd></dd>
-                <dt><strong>delete</strong>:</dt> <dd><kbd>backspace</kbd></dd>
-                <h6>sfx</h6>
-                <dt><strong>select all in note</strong>:</dt> <dd><kbd>doubleclick</kbd></dd>
-                <h6>effects</h6>
-                <dt><strong>0</strong> ::</dt> <dd>none</dd>
-                <dt><strong>1</strong> ::</dt> <dd>slide</dd>
-                <dt><strong>2</strong> ::</dt> <dd>vibrato</dd>
-                <dt><strong>3</strong> ::</dt> <dd>drop (drum kick!)</dd>
-                <dt><strong>4</strong> ::</dt> <dd>fade in</dd>
-                <dt><strong>5</strong> ::</dt> <dd>fade out</dd>
-                <dt><strong>6</strong> ::</dt> <dd>fast arpeggio (4 notes)</dd>
-                <dt><strong>7</strong> ::</dt> <dd>slow arpeggio (4 notes)</dd>
-              </dl>
-            </div>
-          </div>
-      </div>
-    </div>
+							<h5><u>sfx / music editor</u></h5>
+							<dl class="dl-horizontal">
+								<dt><strong>play / pause</strong>:</dt> <dd><kbd>space</kbd></dd>
+								<dt><strong>copy</strong>:</dt> <dd><kbd>ctrl + c</kbd></dd>
+								<dt><strong>paste</strong>:</dt> <dd><kbd>ctrl + v</kbd></dd>
+								<dt><strong>set all notes</strong>:</dt> <dd><kbd>shift + lmb</kbd></dd>
+								<dt><strong>modify speed</strong>:</dt> <dd><kbd>&lt;</kbd> / <kbd>&gt;</kbd></dd>
+								<dt><strong>navigate</strong>:</dt> <dd><kbd>home</kbd>, <kbd>end</kbd>, <kbd>pageup</kbd>, <kbd>pagedown</kbd>, <kbd>mousewheel</kbd></dd>
+								<dt><strong>navigate patterns</strong>:</dt> <dd><kbd>+</kbd> / <kbd>-</kbd></dd>
+								<dt><strong>snap to Cm pentatonic</strong>:</dt> <dd><kbd>ctrl</kbd></dd>
+								<dt><strong>speed x4</strong>:</dt> <dd><kbd>shift</kbd></dd>
+								<dt><strong>release loop</strong>:</dt> <dd><kbd>a</kbd></dd>
+								<dt><strong>delete</strong>:</dt> <dd><kbd>backspace</kbd></dd>
+								<h6>sfx</h6>
+								<dt><strong>select all in note</strong>:</dt> <dd><kbd>doubleclick</kbd></dd>
+								<h6>effects</h6>
+								<dt><strong>0</strong> ::</dt> <dd>none</dd>
+								<dt><strong>1</strong> ::</dt> <dd>slide</dd>
+								<dt><strong>2</strong> ::</dt> <dd>vibrato</dd>
+								<dt><strong>3</strong> ::</dt> <dd>drop (drum kick!)</dd>
+								<dt><strong>4</strong> ::</dt> <dd>fade in</dd>
+								<dt><strong>5</strong> ::</dt> <dd>fade out</dd>
+								<dt><strong>6</strong> ::</dt> <dd>fast arpeggio (4 notes)</dd>
+								<dt><strong>7</strong> ::</dt> <dd>slow arpeggio (4 notes)</dd>
+							</dl>
+						</div>
+					</div>
+			</div>
+		</div>
 
-    <div class="footer">
-      <div class="row">
-        <div class="col-md-4" style="text-align: center;">pico-8 by <a href="http://www.lexaloffle.com/" target="_blank">lexaloffle</a> <img src="img/lexaloffle.png" style="width: 25px;"></img></div>
-        <div class="col-md-4" style="text-align: center;">made with <i class="fa fa-heart text-danger"></i> by <a href="https://neko250.github.io" target="_blank">neko250</a></div>
-        <div class="col-md-4" style="text-align: center;">updated with <i class="fa fa-heart text-danger"></i> by <a href="https://github.com/iiviigames" target="_blank">iiviigames</a></div>
-        <div class="col-md-4" style="text-align: right;">contribute on <a href="https://github.com/iiviigames/pico8-api" target="_blank">github</a> <i class="fa fa-lg fa-code-fork text-primary"></i></div>
-      </div>
-    </div>
+		<div class="footer">
+			<div class="row">
+				<div class="col-md-4" style="text-align: center;">pico-8 by <a href="http://www.lexaloffle.com/" target="_blank">lexaloffle</a> <img src="img/lexaloffle.png" style="width: 25px;"></img></div>
+				<div class="col-md-4" style="text-align: center;">made with <i class="fa fa-heart text-danger"></i> by <a href="https://neko250.github.io" target="_blank">neko250</a></div>
+				<div class="col-md-4" style="text-align: center;">updated with <i class="fa fa-heart text-danger"></i> by <a href="https://github.com/iiviigames" target="_blank">iiviigames</a></div>
+				<div class="col-md-4" style="text-align: center;">contribute on <a href="https://github.com/iiviigames/pico8-api" target="_blank">github</a> <i class="fa fa-lg fa-code-fork text-primary"></i></div>
+			</div>
+		</div>
 
-    <script src="js/jquery.min.js" charset="utf-8"></script>
-    <script src="js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="js/highlight.default.lua.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-  </body>
+		<script src="js/jquery.min.js" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" charset="utf-8"></script>
+		<script src="js/highlight.default.lua.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	</body>
 </html>
