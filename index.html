@@ -78,11 +78,11 @@
 				<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab">audio</a></li>
 				<li role="presentation"><a href="#cartdata" aria-controls="data" role="tab" data-toggle="tab">cart data</a></li>
 				<li role="presentation"><a href="#coroutines" aria-controls="coroutines" role="tab" data-toggle="tab">coroutines</a></li>
+				<li role="presentation"><a href="#flow" aria-controls="flow" role="tab" data-toggle="tab">flow control</a></li>
 				<li role="presentation"><a href="#graphics" aria-controls="graphics" role="tab" data-toggle="tab">graphics</a></li>
 				<li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">input</a></li>
 				<li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">map</a></li>
-				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">math</a></li>
-				<li role="presentation"><a href="#flow" aria-controls="flow" role="tab" data-toggle="tab">flow control</a></li>
+				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">math</a></li>				
 				<li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">memory</a></li>
 				<li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">peek / poke</a></li>
 				<li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">pico-8</a></li>
@@ -143,7 +143,7 @@ sfx(n, [channel, [offset]]) -- play sfx; n = -1: stop in channel; n = -2: releas
 				<!-- CART DATA -->
 				<div role="tabpanel" class="tab-pane fade" id="cartdata">
 					<h6>cart data manipulation</h6>
-					<pre><code class="lua">cartdata(id) -- open cart data named id (once per execution!)
+					<pre><code class="lua">cartdata(id) -- permanent data storage in slot [id]; once/execution
 dget(idx) -- get number at index
 dset(idx, val) -- set number at index to value</code></pre>
 				</div>
@@ -227,15 +227,12 @@ mset(x, y, v) -- set map value</code></pre>
 
 				<!-- MATH -->
 				<div role="tabpanel" class="tab-pane fade" id="math">
-					<h6>math functions</h6>
-					<pre><code class="lua">-32768.0 .. 32767.99 -- numeric representation range
+					<h6>mathematical functions</h6>
+					<pre><code class="lua">-- numeric representation range
+-32768.0 .. 32767.99<br>
 abs(x) -- x absolute value
-atan2(dx, dy) -- convert (dx, dy) to an angle in [0..1]
-band(x, y) -- bitwise conjunction
-bnot(x) -- bitwise negation
-bor(x, y) -- bitwise disjunction
-bxor(x, y) -- bitwise exclusive disjunction
-cos(x) -- x cosine, [0..1]
+atan2(x, y) -- coordinate to angle; range [0..1]
+cos(x) -- cosinus; range [0..1]
 flr(x) -- round down
 -flr(-x) -- not a function per se, but will work as ceil(x)
 max(x, y) -- x/y maximum
@@ -243,8 +240,6 @@ mid(x, y, z) -- x/y/z middle value
 min(x, y) -- x/y minimum
 rnd(x) -- random; 0 &lt;= n &lt; x
 sgn(x) -- returns argument sign: -1 or 1; sgn(0) = 1
-shl(x, y) -- shift left
-shr(x, y) -- shift right
 sin(x) -- x sine, [0..1]; inverted
 sqrt(x) -- x square root
 srand(x) -- set random seed</code></pre>
@@ -272,35 +267,46 @@ x >>> n -- logical right shift (zeros comes in from the left)
 x &lt;&lt;&gt; n -- rotate all bits in x left by n places
 x >>< n -- rotate all bits in x right by n places</code></pre>
 
-					<h6>operators</h6>
-					<pre><code class="lua">a = b -- assignment
+					<h6>operators::assignment</h6>
+					<pre><code class="lua">a = b -- set
 a + b -- sum
 a - b -- sub
 a * b -- mul
 a / b -- div
+a \ b -- int div; ie: flr(x)/n
 a % b -- mod
-a ^ b -- pow
-a += b -- sum to
+a ^ b -- pow</code></pre>
+
+
+					<h6>operators::augmented assignment</h6>
+					<pre><code class="lua">a += b -- sum to
 a -= b -- sub to
 a *= b -- mul to
 a /= b -- div to
 a %= b -- mod to
-a ^= b -- pow to
-a == b -- compare equals
-a ~= b -- compare not equals
-a != b -- compare not equals
-a &gt; b -- compare greater than
-a &lt; b -- compare less than
-a &gt;= b -- compare greater than or equals
-a &lt;= b -- compare less than or equals
-not a -- boolean negation
-a and b -- boolean conjunction
-a or b -- boolean disjunction
-(a) -- operation delimiters</code></pre>
+a ^= b -- pow to</code></pre>
+
+
+					<h6>operators::relational</h6>
+					<pre><code class="lua">a == b -- equivalent
+a ~= b -- non-equivalent
+a != b -- non-equivalent
+a &gt; b&nbsp; -- greater
+a &lt; b&nbsp; -- less
+a &gt;= b -- greater or equivalent
+a &lt;= b -- less or equivalent</code></pre>
+
+					<h6>operators::boolean</h6>
+					<pre><code class="lua">not a&nbsp;&nbsp; -- negation
+a and b -- conjunction
+a or b&nbsp; -- disjunction</code></pre>
+
+					<h6>operators::delimiters</h6>
+					<pre><code class="lua">(a)</code></pre>
 				</div>
 
 
-				<!-- PEEK / POKE -->
+				<!-- FLOW CONTROL -->
 				<div role="tabpanel" class="tab-pane fade" id="flow">
 					<h6>flow control</h6>
 					<pre><code class="lua">::label:: -- label
@@ -339,6 +345,11 @@ end</code></pre>
 
 				<!-- MEMORY -->
 				<div role="tabpanel" class="tab-pane fade" id="memory">
+					<h6>memory</h6>
+					<pre><code class="markdown">
+
+					</code></pre>
+
 					<h6>memory manipulation</h6>
 					<pre><code class="lua">cstore(dest_addr, src_addr, len, [filename]) -- copy bytes from ram to rom [load from filename; works with multi-cart export]
 memcpy(dest_addr, src_addr, len) -- copy bytes
@@ -347,6 +358,8 @@ peek(addr) -- read byte in ram address
 poke(addr, val) -- write val in ram address
 reload(dest_addr, src_addr, len, [filename]) -- copy bytes from rom to ram [load from filename; works with multi-cart export]</code></pre>
 
+
+
 					<h6>memory types</h6>
 					<pre><code class="markdown">1. base ram (32kB)
 2. cart rom
@@ -354,9 +367,9 @@ reload(dest_addr, src_addr, len, [filename]) -- copy bytes from rom to ram [load
 
 					<h6>ram layout</h6>
 					<pre><code class="markdown">0x0    - gfx
-0x1000 - gfx2/map2 (shared)
+0x1000 - shared gfx2/map2
 0x2000 - map
-0x3000 - gfx_props
+0x3000 - gfx flags
 0x3100 - song
 0x3200 - sfx
 0x4300 - user data
