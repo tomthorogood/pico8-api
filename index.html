@@ -105,18 +105,19 @@
 			0x03. AUDIO
 			0x04. CART DATA
 			0x05. COROUTINES
-			0x06. GRAPHICS
-			0x07. INPUT
-			0x08. MAP
-			0x09. MATH
-			0x0A. FLOW CONTROL
+			0x06. FLOW CONTROL
+			0x07. GRAPHICS
+			0x08. INPUT
+			0x09. MAP
+			0x0A. MATH
 			0x0B. MEMORY
-			0x0C. PEEK / POKE
-			0x0D. PICO-8
-			0x0E. STAT
-			0x0F. STRINGS
-			0x10. TABLES
-			0x11. KEYS
+			0x0C. OPERATORS
+			0x0D. PEEK / POKE
+			0x0E. PICO-8
+			0x0F. STAT
+			0x10. STRINGS
+			0x11. TABLES
+			0x12. KEYS
 				0x00. KEYS_0
 				0x01. KEYS_1
 		-->
@@ -140,6 +141,7 @@
 				<li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
 				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>				
 				<li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">Memory</a></li>
+				<li role="presentation"><a href="#operators" aria-controls="memory" role="tab" data-toggle="tab">Operators</a></li>
 				<li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">Peek / Poke</a></li>
 				<li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">PICO-8</a></li>
 				<li role="presentation"><a href="#stat" aria-controls="stat" role="tab" data-toggle="tab">Stat</a></li>
@@ -209,7 +211,7 @@ pico-8 [switches] cart.p8
 -frameless b # set borderless window off (0) or on (1)
 -show_fps b # set fps display off (0) or on (1)</code></pre> -->
 
-					<h6 class="sub-heading">PICo-8 Specs</h6>
+					<h6 class="sub-heading">PICO-8 Specs</h6>
 					<pre><code class="markdown">- display: 128x128, fixed 16 colour palette
 - input: 6 buttons
 - cartridge size: 32k
@@ -217,6 +219,13 @@ pico-8 [switches] cart.p8
 - code: lua, max 8192 tokens of code
 - sprites: single bank of 128 8x8 sprites + 128 shared
 - map: 128x32 8-bit cels + 128x32 shared</code></pre>
+
+					<h6 class="sub-heading">Highlight Tests</h6>
+					<pre><code class="lua">getmetatable(t)
+math.cos(33)
+tonumber(22)
+tonum(33)
+					</code></pre>
 				</div>
 
 				<!-- AUDIO -->
@@ -224,26 +233,71 @@ pico-8 [switches] cart.p8
 					<p><center><img src="img/keyboard.png" alt="" class="img-responsive"></center></p>
 
 					<h6 class="sub-heading">Audio Manipulation</h6>
-					<pre><code class="lua">music([n, [fade_len, [channel_mask]]]) -- play music; n = -1: stop
-sfx(n, [channel, [offset]]) -- play sfx; n = -1: stop in channel; n = -2: release loop in channel</code></pre>
+					<pre><code class="lua"><span class="hljs-built_in">music</span>([n, [fade_len, [channel_mask]]]) -- play music; n = -1: stop
+<span class="hljs-built_in">sfx</span>(n, [channel, [offset]]) -- play sfx; n = -1: stop in channel; n = -2: release loop in channel</code></pre>
 				</div>
 
 				<!-- CART DATA -->
 				<div role="tabpanel" class="tab-pane fade" id="cartdata">
 					<h6 class="sub-heading">Cart Data Manipulation</h6>
-					<pre><code class="lua">cartdata(id) -- permanent data storage in slot [id]; once/execution
-dget(idx) -- get number at index
-dset(idx, val) -- set number at index to value</code></pre>
+					<pre><code class="lua"><span class="hljs-built_in">cartdata</span>(id) -- permanent data storage in slot [id]; once/execution
+<span class="hljs-built_in">dget</span>(idx) -- get number at index
+<span class="hljs-built_in">dset</span>(idx, val) -- set number at index to value</code></pre>
 				</div>
 
 				<!-- COROUTINES -->
 				<div role="tabpanel" class="tab-pane fade" id="coroutines">
 					<h6 class="sub-heading">Coroutines::<u><a href="http://www.lexaloffle.com/bbs/?tid=3458" target="_blank" style="color: white;">view coroutines thread</a></u></h6>
-					<pre><code class="lua">cocreate(f) -- returns a coroutine that executes f
-coresume(c) -- resume coroutine c execution
-costatus(c) -- returns true if c is still executing, false otherwise
-yield() -- use inside a coroutine; makes a coroutine pause execution until next resume</code></pre>
+					<pre><code class="lua"><span class="hljs-built_in">cocreate</span>(f) -- returns a coroutine that executes f
+<span class="hljs-built_in">coresume</span>(c) -- resume coroutine c execution
+<span class="hljs-built_in">costatus</span>(c) -- returns true if c is still executing, false otherwise
+<span class="hljs-built_in">yield</span>() -- use inside a coroutine; makes a coroutine pause execution until next resume</code></pre>
 					<p><center></center></p>
+				</div>
+
+
+				<!-- FLOW CONTROL -->
+				<div role="tabpanel" class="tab-pane fade" id="flow">
+
+					<h6 class="sub-heading">Execution Flow</h6>
+					<pre><code class="lua">_draw()		-- called once per visible frame
+_init()		-- called once on program startup
+_update()	-- called once per update at 30fps
+_update60()	-- called once per update at 60fps</code></pre>
+
+					<h6 class="sub-heading">Flow Control</h6>
+					<pre><code class="lua">::label:: -- label
+goto label -- jump
+
+if (&lt;condition&gt;) -- inline if
+
+if &lt;condition&gt; then
+ -- if block
+elseif &lt;condition&gt; then
+ -- elseif block
+else
+ -- else block
+end
+
+while &lt;condition&gt; do
+ -- while block
+end
+
+repeat
+ -- repeat block
+until &lt;condition&gt;
+
+for &lt;var&gt; = &lt;first&gt;, &lt;last&gt;, &lt;step&gt; do
+ -- for block
+end
+
+for &lt;var&gt; in all(&lt;table&gt;) do
+ -- for block
+end
+
+for &lt;key&gt;, &lt;value&gt; in pairs(&lt;table&gt;) do
+ -- for block
+end</code></pre>
 				</div>
 
 				<!-- GRAPHICS -->
@@ -294,25 +348,28 @@ yield() -- use inside a coroutine; makes a coroutine pause execution until next 
 				<div role="tabpanel" class="tab-pane fade" id="input">
 					<p><center><img style="border-radius: 5px;" src="img/input.png" alt="" class="img-responsive"></center></p>
 
-					<h6 class="sub-heading">Input Manipulation</h6>
-					<pre><code class="lua">btn([i, [p]]) -- get button i state for player p
-btnp([i, [p]]) -- true when the button was not pressed the last frame; delays 4 frames after button held for 15 frames</code></pre>
+					<h6 class="sub-heading">Input Functions</h6>
+					<pre><code class="lua"><span class="hljs-built_in">btn</span>([i, [p]]) -- get button i state for player p
+<span class="hljs-built_in">btnp</span>([i, [p]]) -- true when the button was not pressed the last frame; delays 4 frames after button held for 15 frames</code></pre>
 					
-					<h6 class="sub-heading">Custom Delays</h6>
+					<h6 class="sub-heading">Input::Custom Delays</h6>
 					<pre><code class="lua">-- Button check time delays; measured in frames @ 30FPS
 -- The default values of 15 and 4 will be used if a value of 0 is given for delay
-poke(0x5F5C, delay) -- sets the initial delay before repeating; 255 will turn off repeat completely
-poke(0x5F5D, delay) -- sets the repeating delay.
+<span class="hljs-built_in">poke</span>(0x5F5C, delay) -- sets the initial delay before repeating; 255 will turn off repeat completely
+<span class="hljs-built_in">poke</span>(0x5F5D, delay) -- sets the repeating delay.
 </code></pre>
 				</div>
 
 				<!-- MAP -->
 				<div role="tabpanel" class="tab-pane fade" id="map">
-					<h6 class="sub-heading">Map Manipulation</h6>
-					<pre><code class="lua">map(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- draw map; layers from flags; sprite 0 is empty
-mapdraw(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- same as 'map()'; draw map
-mget(x, y) -- get map value
-mset(x, y, v) -- set map value</code></pre>
+					<h6 class="sub-heading">Map Functions</h6>
+					<pre><code class="lua"><span class="hljs-built_in">map</span>(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer]) -- draw map; layers from flags; sprite 0 is empty
+<span class="hljs-built_in">mget</span>(x, y) -- get map value
+<span class="hljs-built_in">mset</span>(x, y, v) -- set map value</code></pre>
+
+					<h6 class="sub-heading">Map::Deprecated</h6>
+					<pre><code class="lua">-- Functions just like map(), but is no longer used.
+<span class="hljs-built_in">mapdraw</span>(cel_x, cel_y, sx, sy, cel_w, cel_h, [layer])</code></pre>
 				</div>
 
 				<!-- MATH -->
@@ -320,32 +377,62 @@ mset(x, y, v) -- set map value</code></pre>
 					<h6 class="sub-heading">Mathematical Functions</h6>
 					<pre><code class="lua">-- numeric representation range
 -32768.0 .. 32767.99<br>
-abs(x) -- x absolute value
-atan2(x, y) -- coordinate to angle; range [0..1]
-cos(x) -- cosinus; range [0..1]
-flr(x) -- round down
--flr(-x) -- not a function per se, but will work as ceil(x)
-max(x, y) -- x/y maximum
-mid(x, y, z) -- x/y/z middle value
-min(x, y) -- x/y minimum
-rnd(x) -- random; 0 &lt;= n &lt; x
-sgn(x) -- returns argument sign: -1 or 1; sgn(0) = 1
-sin(x) -- x sine, [0..1]; inverted
-sqrt(x) -- x square root
-srand(x) -- set random seed</code></pre>
+<span class="hljs-built_in">abs</span>(x) -- x absolute value
+<span class="hljs-built_in">atan2</span>(x, y) -- coordinate to angle; range [0..1]
+<span class="hljs-built_in">cos</span>(x) -- cosinus; range [0..1]
+<span class="hljs-built_in">flr</span>(x) -- round down
+-<span class="hljs-built_in">flr</span>(-x) -- not a function per se, but will work as ceil(x)
+<span class="hljs-built_in">max</span>(x, y) -- x/y maximum
+<span class="hljs-built_in">mid</span>(x, y, z) -- x/y/z middle value
+<span class="hljs-built_in">min</span>(x, y) -- x/y minimum
+<span class="hljs-built_in">rnd</span>(x) -- random; 0 &lt;= n &lt; x
+<span class="hljs-built_in">sgn</span>(x) -- returns argument sign: -1 or 1; sgn(0) = 1
+<span class="hljs-built_in">sin</span>(x) -- x sine, [0..1]; inverted
+<span class="hljs-built_in">sqrt</span>(x) -- x square root
+<span class="hljs-built_in">srand</span>(x) -- set random seed</code></pre>
+				</div>
 
-					<h6 class="sub-heading">Operations::Bitwise</h6>
-					<pre><code class='lua'>band(x, y) -- both bits are set
-bor(x, y)&nbsp; -- either bit is set
-bxor(x, y) -- either bit is set, but not both of them
-bnot(x)&nbsp;&nbsp;&nbsp;&nbsp;-- each bit is not set
-shl(x, n)&nbsp;&nbsp;-- shift left n bits (zeros come in from the right)
-shr(x, n)&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicated)
-lshr(x, n) -- logical right shift (zeros comes in from the left)
-rotl(x, n) -- rotate all bits in x left by n places
-rotr(x, n) -- rotate all bits in x right by n places</code></pre>
-					
 
+
+				<!-- MEMORY -->
+				<div role="tabpanel" class="tab-pane fade" id="memory">
+
+					<h6 class="sub-heading">Memory Functions</h6>
+					<pre><code class="lua">-- The two following functions load from filename, and work with multi-cart export
+-- copy bytes from ram to rom
+<span class="hljs-built_in">cstore</span>(dest_addr, src_addr, len, [filename])
+-- copy bytes from rom to ram
+<span class="hljs-built_in">reload</span>(dest_addr, src_addr, len, [filename])
+
+<span class="hljs-built_in">memcpy</span>(dest_addr, src_addr, len) -- copy bytes
+<span class="hljs-built_in">memset</span>(dest_addr, val, len) -- set len bytes to val
+<span class="hljs-built_in">peek</span>(addr) -- read byte in ram address
+<span class="hljs-built_in">poke</span>(addr, val) -- write val in ram address</code></pre>
+
+
+
+					<h6 class="sub-heading">Memory::Types</h6>
+					<pre><code class="markdown">1. base ram (32kB)
+2. cart rom
+3. lua ram (1MB)</code></pre>
+
+					<h6 class="sub-heading">Memory::Ram Layout</h6>
+					<pre><code class="lua">0x0    -- gfx
+0x1000 -- shared gfx2/map2
+0x2000 -- map
+0x3000 -- gfx flags
+0x3100 -- song
+0x3200 -- sfx
+0x4300 -- user data
+0x5e00 -- persistent cart data (256 bytes)
+0x5f00 -- draw state
+0x5f40 -- hardware state
+0x5f80 -- gpio pins (128 bytes)
+0x6000 -- screen (8k)</code></pre>
+				</div>
+
+				<!-- OPERATORS -->
+				<div role="tabpanel" class="tab-pane fade" id="operators">					
 					<h6 class="sub-heading">Operators::Bitwise</h6>
 					<pre><code class='lua'>x & y&nbsp;&nbsp; -- both bits are set
 x | y&nbsp;&nbsp; -- either bit is set
@@ -356,6 +443,17 @@ x >> n&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicat
 x >>> n -- logical right shift (zeros comes in from the left)
 x &lt;&lt;&gt; n -- rotate all bits in x left by n places
 x >>< n -- rotate all bits in x right by n places</code></pre>
+
+					<h6 class="sub-heading">Operations::Bitwise</h6>
+					<pre><code class='lua'><span class="hljs-built_in">band</span>(x, y) -- both bits are set
+<span class="hljs-built_in">bor</span>(x, y)&nbsp; -- either bit is set
+<span class="hljs-built_in">bxor</span>(x, y) -- either bit is set, but not both of them
+<span class="hljs-built_in">bnot</span>(x)&nbsp;&nbsp;&nbsp;&nbsp;-- each bit is not set
+<span class="hljs-built_in">shl</span>(x, n)&nbsp;&nbsp;-- shift left n bits (zeros come in from the right)
+<span class="hljs-built_in">shr</span>(x, n)&nbsp;&nbsp;-- arithmetic right shift (the left-most bit state is duplicated)
+<span class="hljs-built_in">lshr</span>(x, n) -- logical right shift (zeros comes in from the left)
+<span class="hljs-built_in">rotl</span>(x, n) -- rotate all bits in x left by n places
+<span class="hljs-built_in">rotr</span>(x, n) -- rotate all bits in x right by n places</code></pre>
 
 					<h6 class="sub-heading">Operators::Assignment</h6>
 					<pre><code class="lua">a = b -- set
@@ -395,87 +493,6 @@ a or b&nbsp; -- disjunction</code></pre>
 					<pre><code class="lua">(a)</code></pre>
 				</div>
 
-
-				<!-- FLOW CONTROL -->
-				<div role="tabpanel" class="tab-pane fade" id="flow">
-
-					<h6 class="sub-heading">Execution Flow</h6>
-					<pre><code class="lua">_draw()		-- called once per visible frame
-_init()		-- called once on program startup
-_update()	-- called once per update at 30fps
-_update60()	-- called once per update at 60fps</code></pre>
-
-					<h6 class="sub-heading">Flow Control</h6>
-					<pre><code class="lua">::label:: -- label
-goto label -- jump
-
-if (&lt;condition&gt;) -- inline if
-
-if &lt;condition&gt; then
- -- if block
-elseif &lt;condition&gt; then
- -- elseif block
-else
- -- else block
-end
-
-while &lt;condition&gt; do
- -- while block
-end
-
-repeat
- -- repeat block
-until &lt;condition&gt;
-
-for &lt;var&gt; = &lt;first&gt;, &lt;last&gt;, &lt;step&gt; do
- -- for block
-end
-
-for &lt;var&gt; in all(&lt;table&gt;) do
- -- for block
-end
-
-for &lt;key&gt;, &lt;value&gt; in pairs(&lt;table&gt;) do
- -- for block
-end</code></pre>
-				</div>
-
-				<!-- MEMORY -->
-				<div role="tabpanel" class="tab-pane fade" id="memory">
-					<h6 class="sub-heading">Memory</h6>
-					<pre><code class="markdown">
-
-					</code></pre>
-
-					<h6 class="sub-heading">Memory Manipulation</h6>
-					<pre><code class="lua">cstore(dest_addr, src_addr, len, [filename]) -- copy bytes from ram to rom [load from filename; works with multi-cart export]
-memcpy(dest_addr, src_addr, len) -- copy bytes
-memset(dest_addr, val, len) -- set len bytes to val
-peek(addr) -- read byte in ram address
-poke(addr, val) -- write val in ram address
-reload(dest_addr, src_addr, len, [filename]) -- copy bytes from rom to ram [load from filename; works with multi-cart export]</code></pre>
-
-
-
-					<h6 class="sub-heading">Memory Types</h6>
-					<pre><code class="markdown">1. base ram (32kB)
-2. cart rom
-3. lua ram (1MB)</code></pre>
-
-					<h6 class="sub-heading">Ram Layout</h6>
-					<pre><code class="markdown">0x0    - gfx
-0x1000 - shared gfx2/map2
-0x2000 - map
-0x3000 - gfx flags
-0x3100 - song
-0x3200 - sfx
-0x4300 - user data
-0x5e00 - persistent cart data (256 bytes)
-0x5f00 - draw state
-0x5f40 - hardware state
-0x5f80 - gpio pins (128 bytes)
-0x6000 - screen (8k)</code></pre>
-				</div>
 
 				<!-- PEEK / POKE -->
 				<div role="tabpanel" class="tab-pane fade" id="peekpoke">
@@ -570,10 +587,11 @@ holdframe() -- used automatically by _mainloop()</code></pre>
 
 				<!-- STATS -->
 				<div role="tabpanel" class="tab-pane fade" id="stat">
-					<h6 class="sub-heading">Stat</h6>
-					<pre><code class="lua">stat(0) -- memory usage in [0..1024]
-stat(1) -- cpu usage; 1.0 == 100% cpu at 30fps
-stat(4) -- clipboard; after user pressed ctrl-v
+					<p>The stat() function returns information about the current runtime environment.<br>
+						Each kind of information has an <code>ID</code> (a number), described below. </p>
+
+					<h6 class="sub-heading">Stat Overview</h6>
+					<pre><code class="lua">stat(4) -- clipboard; after user pressed ctrl-v
 stat([16..19]) -- index of playing sfx on channels [0..3]
 stat([20..23]) -- note number (0..31) on channels [0..3]
 stat(30) -- keyboard key hit; see "peek / poke" tab
@@ -581,6 +599,38 @@ stat(31) -- keyboard character; see "peek / poke" tab
 stat(32) -- mouse x coord; see "peek / poke" tab
 stat(33) -- mouse y coord; see "peek / poke" tab
 stat(34) -- mouse button bitmask; see "peek / poke" tab</code></pre>
+
+					<h6 class="sub-heading">Stat::Memory and CPU</h6>
+					<pre><code class="lua">stat(0) --[[ Memory Usage
+The number returned is a value in Kilobytes, with 1 representing 1024 bytes.
+Any decimal value returned is accurate, for example, 1.875 is equivalent to 1920 bytes.
+
+This value accounts for ANY & ALL data used in the Lua code, including variables and tables, etc.
+Thus, the maxiumum amount this can return is 2048, ie, 2 Megabytes, the total amount of memory alloted to Lua.
+
+This value does NOT include any peekable/pokeable RAM, ie, graphical/video, nor does it include the cart ROM.
+]]--
+
+stat(1) --[[ Total CPU Usage
+Initializes at <code>0</code> from the first _update call after the most recent _draw call.
+The value will increment steadily towards 1 as the next frame approaches.
+
+Ultimately, if the _update function is used, a value of 1 would represent 1/30th of a second having elapsed.
+If instead the _update60 function is used, a value of 1 would represent 1/60th of a second instead.
+
+Any time this returns a value exceeding 1 is an indication that the current cart is beyond the processing power it
+is allotted for that frame. This means that frames will likely be dropped to compensate for the slow down.
+]]--
+
+stat(2) --[[ System CPU Usage
+This value represents the the range/behavior seen in stat(1)
+
+The difference between the two is that this value will only increase when PICO-8 is processing unseen code.
+
+For example, if the screen was cleared 70 times in a step, stat(2) would return a value > 1. 
+That's because the cls() function is a system call, but if the frame was spent calculating PI,
+stat(2) wouldn't rise, as such calculations are not system calls.
+]]--</code></pre>
 				</div>
 
 
@@ -588,45 +638,45 @@ stat(34) -- mouse button bitmask; see "peek / poke" tab</code></pre>
 				<div role="tabpanel" class="tab-pane fade" id="strings">
 					<p><center><img style="border-radius: 5px;" src="img/glyphs.png" alt="" class="img-responsive"></center></p>
 
-					<h6 class="sub-heading">String::operators</h6>
-					<pre><code class="lua">#	-- Retrieves the length of a string
-..	-- <a href="https://en.wikipedia.org/wiki/Concatenation">Concatenation</a></code></pre>
 					<h6 class="sub-heading">String Functions</h6>
-					<pre><code class="lua">#s -- string length
-"three " .. 4 -- String concatenation
-sub(str, from, [to]) -- Get character[s] in the range [from]:[to]
+					<pre><code class="lua"><span class="hljs-built_in">sub</span>(str, from, [to]) -- Get character[s] in the range [from]:[to]
 
 -- Convert val to a string; if hex is true and val is a number; Output: "0x0000.0000"
-tostr(val, [hex])
+<span class="hljs-built_in">tostr</span>(val, [hex])
 
 -- Cast parseable str to number; nil if str isn't a number; "0xAF" format for hex
-tonum(str)
+<span class="hljs-built_in">tonum</span>(str)
 "123.45" + 0 -- alternative to tonum
 </code></pre>
 
-					<h6 class="sub-heading">8-Bit Character Set</h6>
-					<pre><code class="lua">chr(num) -- gets a string character from a value[0..255]
-ord(str) -- gets the index [0..255] from a character
+
+					<h6 class="sub-heading">String::Operators</h6>
+					<pre><code class="lua">#	-- Retrieves the length of a string
+..	-- <a href="https://en.wikipedia.org/wiki/Concatenation">Concatenation</a></code></pre>
+
+					<h6 class="sub-heading">String::Character Set</h6>
+					<pre><code class="lua"><span class="hljs-built_in">chr</span>(num) -- gets a string character from a value[0..255]
+<span class="hljs-built_in">ord</span>(str) -- gets the index [0..255] from a character
 print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
 
 
-					<h6 class="sub-heading">Special Characters</h6>
+					<h6 class="sub-heading">String::Special Characters</h6>
 					<pre><code class="lua">print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
 				</div>
 
 				<!-- TABLES -->
 				<div role="tabpanel" class="tab-pane fade" id="tables">
-					<h6 class="sub-heading">Table Manipulation</h6>
-					<pre><code class="lua">add(t, v) -- add v to t
-all(t) -- used in 'for v in all(t)' loops
-count(t) -- returns number of elements in the table
-del(t, v) -- delete first instance of v in t
-foreach(t, f) -- call f() for each v in t
+					<h6 class="sub-heading">Table Functions</h6>
+					<pre><code class="lua"><span class="hljs-built_in">add</span>(t, v) -- add v to t
+<span class="hljs-built_in">all</span>(t) -- used in 'for v in all(t)' loops
+<span class="hljs-built_in">count</span>(t) -- returns number of elements in the table
+<span class="hljs-built_in">del</span>(t, v) -- delete first instance of v in t
+<span class="hljs-built_in">foreach</span>(t, f) -- call f() for each v in t
 ipairs(t) -- loops through a numerically indexed table; for _, v in ipairs(t) do end
 pairs(t) -- loops through string indexed tables; for k,v in pairs(t) do end
-pack(...) -- adds any number of arguments into a table and returns the table
+<span class="hljs-built_in">pack</span>(...) -- adds any number of arguments into a table and returns the table
 unpack(t) -- returns all entries in a table as arguments
-rnd(t) -- returns a random value from a table
+<span class="hljs-built_in">rnd</span>(t) -- returns a random value from a table
 </code></pre>
 
 					<h6 class="sub-heading">Metatables::<u><a href="http://www.lexaloffle.com/bbs/?tid=3342" target="_blank" >view metatables thread</a></u></h6>
@@ -654,7 +704,7 @@ public_mt = {}
 mt.__metatable = public_mt
 
 -- string casting; returned by 'tostring(t)'
-function mt.__tostring(t) return tostring(t) end
+function mt.__tostring(t) return <span class="hljs-built_in">tostr</span>(t) end
 
 -- table length; returned by '#t'
 function mt.__len(t) return #t end</code></pre>
