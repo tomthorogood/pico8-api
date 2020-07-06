@@ -7,6 +7,7 @@
 		<title>PICO-8 API</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="bootstrap" charset="utf-8">
 		<link rel="stylesheet" href="css/highlight/pico8.css">
+		<link rel="stylesheet" href="css/newstyle.css">
 		<!-- Fira Code -->
 		<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 		<style type="text/css">
@@ -155,7 +156,7 @@
 				<div role="tabpanel" class="tab-pane active" id="home">
 					<p><center><img src="img/icon.png" alt="" class="img-responsive"></center></p>
 
-					<h6>Version <code>0.2.0i</code></h6>
+					<h6 style="line-height: 20px;">Version <code>0.2.1b</code> <br><i><code>oval() ovalfill() split()</code> added</i></h6>
 					<h6 class="sub-heading">Commandline Arguments</h6>
 					<pre><code class="gml">-- Run Pico-8 from Terminal
 pico-8 [switches] cart.p8
@@ -176,7 +177,7 @@ pico-8 [switches] cart.p8
 -x		cart	-- execute a PICO-8 cart headless and then quit (experimental!)
 -export		args	-- run EXPORT command in headless mode and exit
 -p		args	-- pass a parameter string to the specified cartridge
--home		path	-- set the path to store config.txt and other user data files
+-home_path	path	-- set the path to store config.txt and other user data files
 -root_path	path	-- set the path to store cartridge files
 -desktop	path	-- set a location for screenshots and gifs to be saved
 -gif_scale	n	-- scale of gif captures. default: 2 (256x256 pixels)
@@ -220,12 +221,6 @@ pico-8 [switches] cart.p8
 - sprites: single bank of 128 8x8 sprites + 128 shared
 - map: 128x32 8-bit cels + 128x32 shared</code></pre>
 
-					<h6 class="sub-heading">Highlight Tests</h6>
-					<pre><code class="lua">getmetatable(t)
-math.cos(33)
-tonumber(22)
-tonum(33)
-					</code></pre>
 				</div>
 
 				<!-- AUDIO -->
@@ -317,6 +312,8 @@ end</code></pre>
 <span class="hljs-built_in">flip</span>() -- flip screen back buffer (30fps)
 <span class="hljs-built_in">fset</span>(n, [f], v) -- set values of sprite flags
 <span class="hljs-built_in">line</span>(x0, y0, x1, y1, [col]) -- draw line
+<span class="hljs-built_in">oval</span>(x0, y0, x1, y1, [col]) -- draws an ellipse inside of a bounding rectangle
+<span class="hljs-built_in">ovalfill</span>(x0, y0, x1, y1, [col]) -- draws a colored ellipse
 <span class="hljs-built_in">pal</span>(c0, c1, [p]) -- swaps col 0 to col 1; p = 0 = draw palette; p = 1 = screen palette
 <span class="hljs-built_in">palt</span>(col, t) -- set transparency for colour to t (bool)
 <span class="hljs-built_in">pget</span>(x, y) -- get pixel colour
@@ -636,10 +633,60 @@ stat(2) wouldn't rise, as such calculations are not system calls.
 
 				<!-- STRINGS -->
 				<div role="tabpanel" class="tab-pane fade" id="strings">
-					<p><center><img style="border-radius: 5px;" src="img/glyphs.png" alt="" class="img-responsive"></center></p>
+					<!-- Glyph Images (OUTDATED) -->
+					<!-- 					<div class="imgrow">
+												Plain Glyphs
+											<div class="imgcol"><img src="img/glyphs.png" alt="" class="img-responsive"></div>
+										ALL Glyphs
+											<div class="imgcol"><img src="img/all_glyphs.png" alt="" class="img-responsive"></div>
+										</div> -->
+				<p><center><img style="border-radius: 6px;width: 25%; height: 25%" src="img/all_glyphs.png" alt="" class="izoom"></center></p>
+					
+					<h6 class="sub-heading">Strings</h6>
+					<pre><code class="lua">-- Single quotes are fastest. 
+sonic = 'Movin around at the speed of sound.'
+-- But you've still got the Prower to make that adverb <kbd><i>feel faster</i></kbd> in single quotes
+tails = 'Can\'t stick around, gotta keep movin\' on.'
 
-					<h6 class="sub-heading">String Functions</h6>
+-- Double quotes can help avoid the backslashapostatrophe.
+adventure = "Don't stop, believin."
+-- But what if I want to include the next line of that non-copyrighted lyrical element in the same string?
+newline = "\n"
+-- A backslash before the letter 'n' will get that job done. There's a few more you can find <a href="">here</a>
+getitout = "Don't stop, believin.\nDon't hold on to that feelin'."
+
+-- But for the poets and commenters out there, the King of String, is the double parenthetical. 
+-- What You See is What You Get; Anything within these brackets is interpreted as is, <i>including new lines</i>
+WYSIWYG = [[
+"THROUGH me you pass into the city of woe:
+Through me you pass into eternal pain:
+Through me among the people lost for aye.
+Justice the founder of my fabric mov'd:
+To rear me was the task of power divine,
+Supremest wisdom, and primeval love.
+Before me things create were none, save things
+Eternal, and eternal I endure.
+"All hope abandon ye who enter here."
+]]</code></pre>
+	
+					<h6 class="sub-heading">String:Operators</h6>
+					<pre><code class="lua">#	-- Retrieves the length of a string
+..	-- <a href="https://en.wikipedia.org/wiki/Concatenation">Concatenation</a></code></pre>
+
+
+
+					<h6 class="sub-heading">String::Functions</h6>
 					<pre><code class="lua"><span class="hljs-built_in">sub</span>(str, from, [to]) -- Get character[s] in the range [from]:[to]
+--[[
+Split a string into a table of elements delimited by the given separator (defaults to ",").
+When convert_numbers is true, numerical tokens are stored as numbers (defaults to true).
+Empty elements are stored as empty strings.
+When the separator is "", every character is split into a separate element.
+]]--
+<span class="hljs-built_in">split</span>(str, [separator], [convert_numbers])
+	split("1,2,3") -- returns {1,2,3}
+	split("one:two:3",":",false) -- returns {"one","two","3"}
+	split("1,,2,") -- returns {1,"",2,""}
 
 -- Convert val to a string; if hex is true and val is a number; Output: "0x0000.0000"
 <span class="hljs-built_in">tostr</span>(val, [hex])
@@ -647,15 +694,7 @@ stat(2) wouldn't rise, as such calculations are not system calls.
 -- Cast parseable str to number; nil if str isn't a number; "0xAF" format for hex
 <span class="hljs-built_in">tonum</span>(str)
 "123.45" + 0 -- alternative to tonum
-</code></pre>
-
-
-					<h6 class="sub-heading">String::Operators</h6>
-					<pre><code class="lua">#	-- Retrieves the length of a string
-..	-- <a href="https://en.wikipedia.org/wiki/Concatenation">Concatenation</a></code></pre>
-
-					<h6 class="sub-heading">String::Character Set</h6>
-					<pre><code class="lua"><span class="hljs-built_in">chr</span>(num) -- gets a string character from a value[0..255]
+<span class="hljs-built_in">chr</span>(num) -- gets a string character from a value[0..255]
 <span class="hljs-built_in">ord</span>(str) -- gets the index [0..255] from a character
 print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
 
