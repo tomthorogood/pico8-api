@@ -1,5 +1,5 @@
 
-![](https://odd.codes/img/book/p8banner.png)
+![](https://odd.codes/img/wiki/p8banner.png)
 
 # PICO-8 API
 
