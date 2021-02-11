@@ -773,7 +773,10 @@ function mt.__mod(a, b) return a % b end
 function mt.__pow(a, b) return a ^ b end
 
 -- concatenation; returned by 'a .. b'
-function mt.__concat(a, b) return a .. b end</code></pre>
+function mt.__concat(a, b) return a .. b end
+
+-- stringcasting; returned by 'a .. b'
+function mt:__tostring() for k,v in pairs(self) do print(tostr(k)..": "..tostr(v)) end end</code></pre>
 
 					<h6 class="sub-heading">Metatables::Comparison Operators</h6>
 					<pre><code class="lua">-- check for equality; returned by 'a == b'
