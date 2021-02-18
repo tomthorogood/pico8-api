@@ -188,7 +188,7 @@
 				<li role="presentation"><a href="#strings" aria-controls="strings" role="tab" data-toggle="tab">Strings</a></li>
 				<li role="presentation"><a href="#p8scii" aria-controls="p8scii" role="tab" data-toggle="tab">P8SCII</a></li>
 				<li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
-				<li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">[Keyboard Shortcuts]</a></li>
+				<li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">Keyboard Shortcuts</a></li>
 			</ul>
 
 			<div class="tab-content clearfix">
@@ -199,38 +199,38 @@
 					
 					<p class="note">Version <code>0.2.2</code> <br><i>Added <b>P8SCII</b> tab, Secret Palette.</i></p>
 					<h6 class="sub-heading">Commandline Arguments</h6>
-					<style>.a{font-style: italic; color: teal; font-weight: 900;}</style>
-					<pre><code class="gml">// Run Pico-8 from Terminal
+					<style>.a{font-style: italic; color: #fdcc59; font-weight: 900;}</style>
+					<pre><code class="gml">--  Run Pico-8 from Terminal
 pico-8 [switches] cart.p8
 
--splore -- boot in splore mode
--width	<span class="a">n</span>	-- set the window width
--height					n	-- set the window height
--windowed	         n	-- set windowed mode off (0) or on (1)
--volume		         n	-- set all audio volume [0..256]
--sound		         n	-- set only sfx volume [0..256]
--music		         n	-- set only music volume [0..256]
--joystick	         n	-- joystick controls starts at player n (0..7)
--pixel_perfect	   n	-- 1 for unfiltered screen stretching at integer scales
--preblit_scale	   n	-- scale the display by n before blitting to screen
--draw_rect	    xywh	-- absolute window coordinates and size to draw the p8 screen
--run		        cart	-- load and run a cartridge
--x		          cart	-- execute a PICO-8 cart headless and then quit (experimental!)
--export		      args	-- run EXPORT command in headless mode and exit
--p		          args	-- pass a parameter string to the specified cartridge
--home_path	    path	-- set the path to store config.txt and other user data files
--root_path	path	-- set the path to store cartridge files
--desktop	path	-- set a location for screenshots and gifs to be saved
--gif_scale	n	-- scale of gif captures. default: 2 (256x256 pixels)
--gif_len	n	-- set the maximum gif length in seconds (1..120)
--gui_theme	n	-- use 1 for a grey, higher contrast editor color scheme (0: blue)
--timeout	n	-- how many seconds to wait for splore downloads timeout (d: 30)
--software_blit	n	-- use software blitting mode off (0) or on (1)
--screenshot_scale	n -- scale of screenshots.  default: 3 (368x368 pixels)
--foreground_sleep_ms	n -- how many milliseconds to sleep between frames.
--background_sleep_ms	n -- how many milliseconds to sleep between frames in bg
--accept_future	n	-- use (1) to allow loading cartridges made w/ newer P8 versions
--global_api	n	-- use (1) to leave api functions in global scope (debugging)
+-splore                       -- boot in splore mode
+-width                  <span class="a">n</span>     -- set the window width
+-height                 <span class="a">n</span>     -- set the window height
+-windowed               <span class="a">n</span>     -- set windowed mode off (0) or on (1)
+-volume                 <span class="a">n</span>     -- set all audio volume [0..256]
+-sound                  <span class="a">n</span>     -- set only sfx volume [0..256]
+-music                  <span class="a">n</span>     -- set only music volume [0..256]
+-joystick               <span class="a">n</span>     -- joystick controls starts at player n (0..7)
+-pixel_perfect          <span class="a">n</span>     -- 1 for unfiltered screen stretching at integer scales
+-preblit_scale          <span class="a">n</span>     -- scale the display by n before blitting to screen
+-draw_rect              <span class="a">xywh</span>  -- absolute window coordinates and size to draw the p8 screen
+-run                    <span class="a">cart</span>  -- load and run a cartridge
+-x                      <span class="a">cart</span>  -- execute a PICO-8 cart headless and then quit (experimental!)
+-export                 <span class="a">args</span>  -- run EXPORT command in headless mode and exit
+-p                      <span class="a">args</span>  -- pass a parameter string to the specified cartridge
+-home_path              <span class="a">path</span>  -- set the path to store config.txt and other user data files
+-root_path              <span class="a">path</span>  -- set the path to store cartridge files
+-desktop                <span class="a">path</span>  -- set a location for screenshots and gifs to be saved
+-gif_scale              <span class="a">n</span>     -- scale of gif captures. default: 2 (256x256 pixels)
+-gif_len                <span class="a">n</span>     -- set the maximum gif length in seconds (1..120)
+-gui_theme              <span class="a">n</span>     -- use 1 for a grey, higher contrast editor color scheme (0: blue)
+-timeout                <span class="a">n</span>     -- how many seconds to wait for splore downloads timeout (d: 30)
+-software_blit          <span class="a">n</span>     -- use software blitting mode off (0) or on (1)
+-screenshot_scale       <span class="a">n</span>     -- scale of screenshots.  default: 3 (368x368 pixels)
+-foreground_sleep_ms    <span class="a">n</span>     -- how many milliseconds to sleep between frames.
+-background_sleep_ms    <span class="a">n</span>     -- how many milliseconds to sleep between frames in bg
+-accept_future          <span class="a">n</span>     -- use (1) to allow loading cartridges made w/ newer P8 versions
+-global_api             <span class="a">n</span>     -- use (1) to leave api functions in global scope (debugging)
 </code></pre>
 
 <!-- 					<h6>old manpage</h6>
