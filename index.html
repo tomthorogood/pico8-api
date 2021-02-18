@@ -7,6 +7,7 @@
 		<title>PICO-8 API</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="bootstrap" charset="utf-8">
 		<link rel="stylesheet" href="css/highlight/pico8.css">
+		<!-- <link rel="stylesheet" href="css/hljs/p8-default.css"> -->
 		<link rel="stylesheet" href="css/newstyle.css">
 		<!-- Fira Code -->
 		<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
@@ -91,12 +92,21 @@
 				border-bottom-left-radius: 10px;
 				border-bottom-right-radius: 10px;
 			}
+
+			/* Tab Paragraph */
+			.note {
+				display: block;
+			  background: #1D2B53;
+			  color: #C2C3C7;
+			  padding: 0.5em;
+			}
+
 		</style>
 		<script src="https://use.fontawesome.com/1452dd4c19.js"></script>
 	</head>
 	<body>
 
-		<!--
+		<!-- TABLE OF CONTENTS
 			[ TOC ]
 			=======
 
@@ -121,6 +131,7 @@
 			0x12. KEYS
 				0x00. KEYS_0
 				0x01. KEYS_1
+			0x13. P8SCII
 		-->
 
 		<div id="content" class="container api">
@@ -140,13 +151,14 @@
 				<li role="presentation"><a href="#graphics" aria-controls="graphics" role="tab" data-toggle="tab">Graphics</a></li>
 				<li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">Input</a></li>
 				<li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
-				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>				
+				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>
 				<li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">Memory</a></li>
 				<li role="presentation"><a href="#operators" aria-controls="memory" role="tab" data-toggle="tab">Operators</a></li>
 				<li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">Peek / Poke</a></li>
 				<li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">PICO-8</a></li>
 				<li role="presentation"><a href="#stat" aria-controls="stat" role="tab" data-toggle="tab">Stat</a></li>
 				<li role="presentation"><a href="#strings" aria-controls="strings" role="tab" data-toggle="tab">Strings</a></li>
+				<li role="presentation"><a href="#p8scii" aria-controls="p8scii" role="tab" data-toggle="tab">P8SCII</a></li>
 				<li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
 				<li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">[Keyboard Shortcuts]</a></li>
 			</ul>
@@ -159,12 +171,12 @@
 					<h6 style="line-height: 20px;">Version <code>0.2.1b</code> <br><i><code>oval() ovalfill() split()</code> added</i></h6>
 					<h6 class="sub-heading">Commandline Arguments</h6>
 					<style>.a{font-style: italic; color: teal; font-weight: 900;}</style>
-					<pre><code class="gml">-- Run Pico-8 from Terminal
+					<pre><code class="gml">// Run Pico-8 from Terminal
 pico-8 [switches] cart.p8
 
 -splore -- boot in splore mode
--width	<span class="a">n</span>	-- set the window width 
--height					n	-- set the window height 
+-width	<span class="a">n</span>	-- set the window width
+-height					n	-- set the window height
 -windowed	         n	-- set windowed mode off (0) or on (1)
 -volume		         n	-- set all audio volume [0..256]
 -sound		         n	-- set only sfx volume [0..256]
@@ -172,7 +184,7 @@ pico-8 [switches] cart.p8
 -joystick	         n	-- joystick controls starts at player n (0..7)
 -pixel_perfect	   n	-- 1 for unfiltered screen stretching at integer scales
 -preblit_scale	   n	-- scale the display by n before blitting to screen
--draw_rect	    xywh	-- absolute window coordinates and size to draw the p8 screen 
+-draw_rect	    xywh	-- absolute window coordinates and size to draw the p8 screen
 -run		        cart	-- load and run a cartridge
 -x		          cart	-- execute a PICO-8 cart headless and then quit (experimental!)
 -export		      args	-- run EXPORT command in headless mode and exit
@@ -185,11 +197,11 @@ pico-8 [switches] cart.p8
 -gui_theme	n	-- use 1 for a grey, higher contrast editor color scheme (0: blue)
 -timeout	n	-- how many seconds to wait for splore downloads timeout (d: 30)
 -software_blit	n	-- use software blitting mode off (0) or on (1)
--accept_future	n	-- use 1 to allow loading cartridges made w/ newer P8 versions
 -screenshot_scale	n -- scale of screenshots.  default: 3 (368x368 pixels)
 -foreground_sleep_ms	n -- how many milliseconds to sleep between frames.
 -background_sleep_ms	n -- how many milliseconds to sleep between frames in bg
--accept_future   n -- use 1 to allow loading cartridges made with future versions of PICO-8 
+-accept_future	n	-- use (1) to allow loading cartridges made w/ newer P8 versions
+-global_api	n	-- use (1) to leave api functions in global scope (debugging)
 </code></pre>
 
 <!-- 					<h6>old manpage</h6>
@@ -299,7 +311,12 @@ end</code></pre>
 
 				<!-- GRAPHICS -->
 				<div role="tabpanel" class="tab-pane fade" id="graphics">
-					<p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p>
+					<!-- <p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p> -->
+					<p>
+						<img style="display: flex; flex: 33%; border-radius: 5px;" src="img/normal_palette.png" alt="" >
+						<img style="display: flex; flex: 66%; border-radius: 5px;" src="img/secret_palette.png" alt="" >
+					</p>
+					<!--  class="img-responsive" -->
 
 					<h6 class="sub-heading">Graphics Manipulation</h6>
 					<pre><code class="lua"><span class="hljs-built_in">camera</span>([x, y]) -- set camera position
@@ -327,7 +344,7 @@ end</code></pre>
 <span class="hljs-built_in">spr</span>(n, x, y, [w, h], [flip_x], [flip_y]) -- draw sprite
 <span class="hljs-built_in">sset</span>(x, y, [col]) -- set spritesheet pixel colour
 <span class="hljs-built_in">sspr</span>(sx, sy, sw, sh, dx, dy, [dw, dh], [flip_x], [flip_y]) -- draw texture from spritesheet
- 
+
  -- Draws a textured line between two points, sampling the map for data
 <span class="hljs-built_in">tline</span>(x0, y0, x1, y1, mx, my, [mdx], [mdy])
 </code></pre>
@@ -350,7 +367,7 @@ end</code></pre>
 					<h6 class="sub-heading">Input Functions</h6>
 					<pre><code class="lua"><span class="hljs-built_in">btn</span>([i, [p]]) -- get button i state for player p
 <span class="hljs-built_in">btnp</span>([i, [p]]) -- true when the button was not pressed the last frame; delays 4 frames after button held for 15 frames</code></pre>
-					
+
 					<h6 class="sub-heading">Input::Custom Delays</h6>
 					<pre><code class="lua">-- Button check time delays; measured in frames @ 30FPS
 -- The default values of 15 and 4 will be used if a value of 0 is given for delay
@@ -431,7 +448,7 @@ end</code></pre>
 				</div>
 
 				<!-- OPERATORS -->
-				<div role="tabpanel" class="tab-pane fade" id="operators">					
+				<div role="tabpanel" class="tab-pane fade" id="operators">
 					<h6 class="sub-heading">Operators::Bitwise</h6>
 					<pre><code class='lua'>x & y&nbsp;&nbsp; -- both bits are set
 x | y&nbsp;&nbsp; -- either bit is set
@@ -626,7 +643,7 @@ This value represents the the range/behavior seen in stat(1)
 
 The difference between the two is that this value will only increase when PICO-8 is processing unseen code.
 
-For example, if the screen was cleared 70 times in a step, stat(2) would return a value > 1. 
+For example, if the screen was cleared 70 times in a step, stat(2) would return a value > 1.
 That's because the cls() function is a system call, but if the frame was spent calculating PI,
 stat(2) wouldn't rise, as such calculations are not system calls.
 ]]--</code></pre>
@@ -643,9 +660,9 @@ stat(2) wouldn't rise, as such calculations are not system calls.
 											<div class="imgcol"><img src="img/all_glyphs.png" alt="" class="img-responsive"></div>
 										</div> -->
 				<p><center><img style="border-radius: 6px;width: 25%; height: 25%" src="img/all_glyphs.png" alt="" class="izoom"></center></p>
-					
+
 					<h6 class="sub-heading">Strings</h6>
-					<pre><code class="lua">-- Single quotes are fastest. 
+					<pre><code class="lua">-- Single quotes are fastest.
 sonic = 'Movin around at the speed of sound.'
 -- But you've still got the Prower to make that adverb <kbd><i>feel faster</i></kbd> in single quotes
 tails = 'Can\'t stick around, gotta keep movin\' on.'
@@ -657,7 +674,7 @@ newline = "\n"
 -- A backslash before the letter 'n' will get that job done. There's a few more you can find <a href="">here</a>
 getitout = "Don't stop, believin.\nDon't hold on to that feelin'."
 
--- But for the poets and commenters out there, the King of String, is the double parenthetical. 
+-- But for the poets and commenters out there, the King of String, is the double parenthetical.
 -- What You See is What You Get; Anything within these brackets is interpreted as is, <i>including new lines</i>
 WYSIWYG = [[
 "THROUGH me you pass into the city of woe:
@@ -670,7 +687,7 @@ Before me things create were none, save things
 Eternal, and eternal I endure.
 "All hope abandon ye who enter here."
 ]]</code></pre>
-	
+
 					<h6 class="sub-heading">String:Operators</h6>
 					<pre><code class="lua">#	-- Retrieves the length of a string
 ..	-- <a href="https://en.wikipedia.org/wiki/Concatenation">Concatenation</a></code></pre>
@@ -704,6 +721,174 @@ print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
 					<h6 class="sub-heading">String::Special Characters</h6>
 					<pre><code class="lua">print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
 				</div>
+
+				<!-- 0x13. P8SCII-->
+				<div role="tabpanel" class="tab-pane fade" id="p8scii">
+					<p>
+						When used with <span class="hljs-built_in">print</span>(), some characters have a special meaning.<br>
+						Each possibility is detailed below.<br>
+					</p>
+
+					<h6 class="sub-heading">P8SCII</h6>
+
+
+
+					<pre><code class="lua">-- all control characters are the values in this range.
+<span class="hljs-built_in">chr</span>(0)..<span class="hljs-built_in">chr</span>(15)
+-- they can also be written with their corresponding escape sequence
+"\n" -- creates a newline
+</code></pre>
+
+					<p class="note"><code style="background: #1D2B53; color: #C2C3C7;">?</code> is pico-8 shorthand for <span class="hljs-built_in">print</span></p>
+
+					<h6 class="sub-heading">P8SCII::Parameters</h6>
+					<pre><code class="lua">-- Extended Hexadecimal
+'0'..'f' == 0..15.
+					--[[
+Some of the control codes below take parameters which are written using a scheme that is
+a superset of hexidecimal format. That is, '0'..'f' also mean 0..15. But characters after
+'f' are also accepted: 'g' means 16 and so on. Such parameters are written below as P0, P1.
+]]--
+
+For example, to print with a blue background ("\#c") and dark gray foreground ("\f5"):
+
+	print("\#c\f5 blue ")
+
+The only side-effects on the draw state are changes in cursor position and foreground color;
+all other attributes are reset each time print() is called.
+</code></pre>
+
+					<h6 class="sub-heading">P8SCII:Control Codes</h6>
+					<pre><code class="lua">-- Control Codes
+<span class="hljs-built_in">chr</span>(0) "\0"   -- terminate printing
+1 "\*"   -- repeat next character P0 times. ?"\*3a" --> aaa
+2 "\#"   -- draw solid background with colour P0
+3 "\-"   -- shift cursor horizontally by P0-16 pixels
+4 "\|"   -- shift cursor vertically by P0-16 pixels
+5 "\+"   -- shift cursor by P0-16, P1-16 pixels
+6 "\^"   -- special command (see P8SCII::Special Commands)
+7 "\a"   -- audio (see below)
+8 "\b"   -- backspace
+9 "\t"   -- tab
+a "\n"   -- newline
+b "\v"   -- decorate previous character (see below)
+c "\f"   -- set foreground colour
+d "\r"   -- carriage return
+e "\014" -- switch to font defined at 0x5600
+f "\015" -- switch to default font
+</code></pre>
+
+					<h6 class="sub-heading">P8SCII::Special Commands</h6>
+					<pre><code class="lua">-- Special Commands
+-- Skip 1,2,4,8,16,32..256 frames
+1..9  -- skip 1,2,4,8,16,32..256 frames
+c -- cls to colour P0, set cursor to 0,0
+g -- set cursor position to home
+h -- set home to cursor position
+j -- jump to absolute P0*4, P1*4 (in screen pixels)
+s -- set tab stop width to P0 pixels (used by "\t")
+x -- set character width  (default: 4)
+y -- set character height (default: 6)
+</code></pre>
+
+					<h6 class="sub-heading">P8SCII::Audio</h6>
+					<pre><code class="lua">
+
+?"\a"   -- single beep
+?"\a12" -- play existing data at sfx 12 (the index is written in decimal)
+
+If an sfx index is not specified, a non-active sfx between 60..63 is selected automatically.
+To fill the SFX with data before playback, the following commands can then be appended.
+
+1. (optional) SFX attributes must appear once at the start as they apply to the whole sound:
+
+	s P0     set the sfx speed
+	l P0 P1  set the sfx loop start and end points
+
+2. Note data:
+
+	Note are written as a..g, optionally followed by a sharp # or flat -, and octave number.
+
+		print "\ace-g" -- minor triad
+
+	Note attributes apply to allow following notes. Adjust with:
+
+	i P0    set the instrument (default: 5)
+	v P0    set the volume     (default: 5)
+	x P0    set the effect     (default: 0)
+	<  >   increase or decrease volume by 1
+
+	For example, to play a fast (speed 4), staccato (effect 5) arpeggio starting at C1:
+
+		print "\as4x5c1egc2egc3egc4"
+</code></pre>
+					<h6 class="sub-heading">P8SCII::Decoration Characters</h6>
+					<pre><code class="lua">-- \v
+The control character \v can be used to decorate the last printed character with another
+character at a given offset, without needing to otherwise manage the cursor position.
+After the decorating character is printed, the previous cursor position is restored.
+
+The format is \v P0 char, where P0 is a number giving the desired offset, and char
+is any character to print at that offset (relative to the previous printed character).
+
+The offset has x packed into the lowest 2 bits, and starts (-2,-8) in reading order.
+So 3 means (+1, -8), 4 means (-2, -7) and so on.
+
+For example, to write "café!", using a comma to draw the accute accent:
+
+	print"\ncafe\vb,!"
+
+In this case P0 is 'b', which is read as the number 11. So the comma is drawn at:
+	x = (11%4)-2 = 1
+	y = (11\4)-8 = -6
+</code></pre>
+
+
+					<h6 class="sub-heading">P8SCII::Custom Font</h6>
+					<pre><code class="lua">--
+A custom font can be defined at 0x5600, consisting of 8 bytes per character * 256 characters
+= 2048 bytes. Each character is an 8x8 bitfield (1 bit/pixel), where starting from the top,
+each row is a single byte starting with 0x1 on the left.
+
+The first five bytes (character 0 is never drawn) describes attributes of the font:
+
+	0x5f60 character width in pixels (can be more than 8, but only 8 pixels are drawn)
+	0x5f61 character width for character 128 and above
+	0x5f62 character height in pixels
+	0x5f63 draw offset x
+	0x5f64 draw offset y
+</code></pre>
+
+					<h6 class="sub-heading">P8SCII::Default Attributes</h6>
+					<!-- ? == <span class="hljs-built_in">print</span> -->
+					<pre><code class="lua">-- attributes are reset every time print() is called
+-- it is possible, however to reset their values by writing to the following memory addresses
+0x5f58 .. 0x5f5b
+
+-- bitfield map
+0x5f58
+	0x1  -- when set to 0x1, bits 1..7 are observed:
+	0x2  -- padding
+	0x4  -- wide
+	0x8  -- tall
+	0x10 -- solid background
+	0x20 -- invert
+	0x40 -- dotty
+	0x80 -- use custom font
+
+-- e.g. pinball everywhere
+<span class="hljs-built_in">poke</span>(0x5f58, 0x1 | 0x2 | 0x4 | 0x8 | 0x20 | 0x40)
+
+0x5f59 --char_w   (low nibble), char_h   (high)
+0x5f5a --char_w2  (low nibble), tab_w    (high)
+0x5f5b --offset_x (low nibble), offset_y (high)
+
+-- any nibbles equal to 0 are ignored
+-- tab_w values mapped to the following range
+4..64</code></pre>
+
+				</div>
+
 
 				<!-- TABLES -->
 				<div role="tabpanel" class="tab-pane fade" id="tables">
@@ -926,7 +1111,21 @@ function mt.__le(a, b) return a <= b end</code></pre>
 
 		<script src="js/jquery.min.js" charset="utf-8"></script>
 		<script src="js/bootstrap.min.js" charset="utf-8"></script>
+
 		<script src="js/highlight.default.lua.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
+
+
+		<!-- <script src="js/hljs/highlight.pack.js"></script> -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script> -->
+		<!-- <script src="./js/hljs/lua.js"></script> -->
+		<!-- <script src="js/hljs/lua.js"></script> -->
+		<!-- <script>
+			import hljs from 'js/hljs/highlight.js';
+			import p8 from "js/hljs/p8.js"
+			hljs.registerLanguage("p8");
+			hljs.highlightAll();
+			// hljs.initHighlightingOnLoad();
+		</script> -->
 	</body>
 </html>
