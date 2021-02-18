@@ -117,10 +117,17 @@
 			/* Tab Paragraph */
 			.note {
 				display: block;
-			  background: #1D2B53;
-			  color: #C2C3C7;
+				font-size: 14px;
+				border-color: #FF77A8;
+			  background:  #1D2B53;
+			  color: #fff1e8;
 			  padding: 0.5em;
+			  border: 20px solid #7E2553;
+				border-radius: 12%;
+				border: 25%;
 			}
+
+			.note code {background: #1D2B53; color: #FFF1E8; font-size:16px;}
 
 		</style>
 		<script src="https://use.fontawesome.com/1452dd4c19.js"></script>
@@ -189,7 +196,8 @@
 				<div role="tabpanel" class="tab-pane active" id="home">
 					<p><center><img src="img/icon.png" alt="" class="img-responsive"></center></p>
 
-					<h6 style="line-height: 20px;">Version <code>0.2.1b</code> <br><i><code>oval() ovalfill() split()</code> added</i></h6>
+					
+					<p class="note">Version <code>0.2.2</code> <br><i>Added <b>P8SCII</b> tab, Secret Palette.</i></p>
 					<h6 class="sub-heading">Commandline Arguments</h6>
 					<style>.a{font-style: italic; color: teal; font-weight: 900;}</style>
 					<pre><code class="gml">// Run Pico-8 from Terminal
@@ -344,7 +352,7 @@ end</code></pre>
 						</div>
 					</code></pre>
 
-					
+
 					<h6 class="sub-heading">Graphics Manipulation</h6>
 					<pre><code class="lua"><span class="hljs-built_in">camera</span>([x, y]) -- set camera position
 <span class="hljs-built_in">circ</span>(x, y, r, [col]) -- draw circle
@@ -773,18 +781,18 @@ print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
 					<h6 class="sub-heading">P8SCII::Parameters</h6>
 					<pre><code class="lua">-- Extended Hexadecimal
 '0'..'f' == 0..15.
-					--[[
+--[[
 Some of the control codes below take parameters which are written using a scheme that is
 a superset of hexidecimal format. That is, '0'..'f' also mean 0..15. But characters after
 'f' are also accepted: 'g' means 16 and so on. Such parameters are written below as P0, P1.
 ]]--
 
-For example, to print with a blue background ("\#c") and dark gray foreground ("\f5"):
+-- For example, to print with a blue background ("\#c") and dark gray foreground ("\f5"):
 
-	print("\#c\f5 blue ")
+<span class="hljs-built_in">print</span>("\#c\f5 blue ")
 
-The only side-effects on the draw state are changes in cursor position and foreground color;
-all other attributes are reset each time print() is called.
+-- the only side-effects on the draw state are changes in cursor position and foreground color
+-- all other attributes are reset each time print() is called
 </code></pre>
 
 					<h6 class="sub-heading">P8SCII:Control Codes</h6>
@@ -808,8 +816,7 @@ f "\015" -- switch to default font
 </code></pre>
 
 					<h6 class="sub-heading">P8SCII::Special Commands</h6>
-					<pre><code class="lua">-- Special Commands
--- Skip 1,2,4,8,16,32..256 frames
+					<pre><code class="lua">-- All of these are strings used in the print function
 1..9  -- skip 1,2,4,8,16,32..256 frames
 c -- cls to colour P0, set cursor to 0,0
 g -- set cursor position to home
@@ -821,35 +828,33 @@ y -- set character height (default: 6)
 </code></pre>
 
 					<h6 class="sub-heading">P8SCII::Audio</h6>
-					<pre><code class="lua">
-
-?"\a"   -- single beep
+					<pre><code class="lua">?"\a"   -- single beep
 ?"\a12" -- play existing data at sfx 12 (the index is written in decimal)
 
-If an sfx index is not specified, a non-active sfx between 60..63 is selected automatically.
-To fill the SFX with data before playback, the following commands can then be appended.
+-- If an sfx index is not specified, a non-active sfx between 60..63 is selected automatically.
+-- To fill the SFX with data before playback, the following commands can then be appended.
 
-1. (optional) SFX attributes must appear once at the start as they apply to the whole sound:
+-- 1. (optional) SFX attributes must appear once at the start as they apply to the whole sound:
 
 	s P0     set the sfx speed
 	l P0 P1  set the sfx loop start and end points
 
-2. Note data:
+-- 2. Note data:
 
-	Note are written as a..g, optionally followed by a sharp # or flat -, and octave number.
+Notes are written as a..g, optionally followed by a sharp # or flat -, and octave number.
 
-		print "\ace-g" -- minor triad
+	<span class="hljs-built_in">print</span> "\ace-g" -- minor triad
 
-	Note attributes apply to allow following notes. Adjust with:
+Note attributes apply to allow following notes. Adjust with:
 
 	i P0    set the instrument (default: 5)
 	v P0    set the volume     (default: 5)
 	x P0    set the effect     (default: 0)
 	<  >   increase or decrease volume by 1
 
-	For example, to play a fast (speed 4), staccato (effect 5) arpeggio starting at C1:
+-- For example, to play a fast (speed 4), staccato (effect 5) arpeggio starting at C1:
 
-		print "\as4x5c1egc2egc3egc4"
+	<span class="hljs-built_in">print</span> "\as4x5c1egc2egc3egc4"
 </code></pre>
 					<h6 class="sub-heading">P8SCII::Decoration Characters</h6>
 					<pre><code class="lua">-- \v
@@ -874,18 +879,19 @@ In this case P0 is 'b', which is read as the number 11. So the comma is drawn at
 
 
 					<h6 class="sub-heading">P8SCII::Custom Font</h6>
-					<pre><code class="lua">--
+					<pre><code class="lua">0x5600 --Custom Font Location
+ 
 A custom font can be defined at 0x5600, consisting of 8 bytes per character * 256 characters
 = 2048 bytes. Each character is an 8x8 bitfield (1 bit/pixel), where starting from the top,
 each row is a single byte starting with 0x1 on the left.
 
 The first five bytes (character 0 is never drawn) describes attributes of the font:
 
-	0x5f60 character width in pixels (can be more than 8, but only 8 pixels are drawn)
-	0x5f61 character width for character 128 and above
-	0x5f62 character height in pixels
-	0x5f63 draw offset x
-	0x5f64 draw offset y
+	0x5f60 -- character width in pixels (can be more than 8, but only 8 pixels are drawn)
+	0x5f61 -- character width for character 128 and above
+	0x5f62 -- character height in pixels
+	0x5f63 -- draw offset x
+	0x5f64 -- draw offset y
 </code></pre>
 
 					<h6 class="sub-heading">P8SCII::Default Attributes</h6>
