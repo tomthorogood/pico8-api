@@ -11,6 +11,27 @@
 		<link rel="stylesheet" href="css/newstyle.css">
 		<!-- Fira Code -->
 		<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+		<!-- IMAGE STYLE -->
+		<style type="text/css">
+			.imgrow {
+				display: flex;
+				flex-wrap: wrap;
+				padding: 0 4px;
+			}
+
+				/* Create two equal columns that sits next to each other */
+			.imgcolumn {
+				flex: 50%;
+				padding: 0 4px;
+			}
+
+			.imgcolumn img {
+				padding-left: 25%;
+				margin-top: 8px;
+				vertical-align: middle;
+			}
+				</style>
+		<!-- BASE STYLE -->
 		<style type="text/css">
 			@font-face {
 				font-family: "Pico8";
@@ -311,13 +332,19 @@ end</code></pre>
 
 				<!-- GRAPHICS -->
 				<div role="tabpanel" class="tab-pane fade" id="graphics">
-					<!-- <p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p> -->
-					<p>
-						<img style="display: flex; flex: 33%; border-radius: 5px;" src="img/normal_palette.png" alt="" >
-						<img style="display: flex; flex: 66%; border-radius: 5px;" src="img/secret_palette.png" alt="" >
-					</p>
-					<!--  class="img-responsive" -->
 
+
+					<h6 class="sub-heading">PALETTES</h6>
+						<pre><code class='lua'>
+						<!-- <p><center><img style="border-radius: 5px;" src="img/colors.png" alt="" class="img-responsive"></center></p> -->
+						<div class="imgrow">
+
+								<div class='imgcolumn'><img src="img/normal_palette.png" alt="Normal Palette" ></div>
+								<div class='imgcolumn'><img src="img/secret_palette.png" alt="Secret Palette" ></div>
+						</div>
+					</code></pre>
+
+					
 					<h6 class="sub-heading">Graphics Manipulation</h6>
 					<pre><code class="lua"><span class="hljs-built_in">camera</span>([x, y]) -- set camera position
 <span class="hljs-built_in">circ</span>(x, y, r, [col]) -- draw circle
@@ -348,6 +375,8 @@ end</code></pre>
  -- Draws a textured line between two points, sampling the map for data
 <span class="hljs-built_in">tline</span>(x0, y0, x1, y1, mx, my, [mdx], [mdy])
 </code></pre>
+
+
 					<h6 class="sub-heading"><code>fillp()</code> mask</h6>
 					<pre><code>.-----------------------.
 |32768|16384| 8192| 4096|
