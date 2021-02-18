@@ -160,6 +160,7 @@
 				0x00. KEYS_0
 				0x01. KEYS_1
 			0x13. P8SCII
+			0x14. LUA
 		-->
 
 		<div id="content" class="container api">
@@ -182,11 +183,12 @@
 				<li role="presentation"><a href="#math" aria-controls="math" role="tab" data-toggle="tab">Math</a></li>
 				<li role="presentation"><a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">Memory</a></li>
 				<li role="presentation"><a href="#operators" aria-controls="memory" role="tab" data-toggle="tab">Operators</a></li>
-				<li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">Peek / Poke</a></li>
+				<!-- <li role="presentation"><a href="#peekpoke" aria-controls="peekpoke" role="tab" data-toggle="tab">Peek / Poke</a></li> -->
 				<li role="presentation"><a href="#pico8" aria-controls="picocli" role="tab" data-toggle="tab">PICO-8</a></li>
 				<li role="presentation"><a href="#stat" aria-controls="stat" role="tab" data-toggle="tab">Stat</a></li>
 				<li role="presentation"><a href="#strings" aria-controls="strings" role="tab" data-toggle="tab">Strings</a></li>
 				<li role="presentation"><a href="#p8scii" aria-controls="p8scii" role="tab" data-toggle="tab">P8SCII</a></li>
+				<li role="presentation"><a href="#lua" aria-controls="lua" role="tab" data-toggle="tab">Lua</a></li>
 				<li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
 				<li role="presentation"><a href="#keys" aria-controls="keys" role="tab" data-toggle="tab">Keyboard Shortcuts</a></li>
 			</ul>
@@ -457,17 +459,19 @@ end</code></pre>
 -- copy bytes from rom to ram
 <span class="hljs-built_in">reload</span>(dest_addr, src_addr, len, [filename])
 
-<span class="hljs-built_in">memcpy</span>(dest_addr, src_addr, len) -- copy bytes
-<span class="hljs-built_in">memset</span>(dest_addr, val, len) -- set len bytes to val
-<span class="hljs-built_in">peek</span>(addr) -- read byte in ram address
-<span class="hljs-built_in">poke</span>(addr, val) -- write val in ram address</code></pre>
+-- copy bytes
+<span class="hljs-built_in">memcpy</span>(dest_addr, src_addr, len)
+-- set len bytes to val
+<span class="hljs-built_in">memset</span>(dest_addr, val, len)
 
+-- read byte in ram address
+<span class="hljs-built_in">peek</span>(addr)
+-- write val in ram address
+<span class="hljs-built_in">poke</span>(addr, val) 
 
-
-					<h6 class="sub-heading">Memory::Types</h6>
-					<pre><code class="markdown">1. base ram (32kB)
-2. cart rom
-3. lua ram (1MB)</code></pre>
+-- interface for Raspberry Pi
+<span class="hljs-built_in">serial</span>(channel, address, length) -- write val in ram address</code></pre>
+</code></pre>
 
 					<h6 class="sub-heading">Memory::Ram Layout</h6>
 					<pre><code class="lua">0x0    -- gfx
@@ -482,6 +486,85 @@ end</code></pre>
 0x5f40 -- hardware state
 0x5f80 -- gpio pins (128 bytes)
 0x6000 -- screen (8k)</code></pre>
+
+					<h6 class="sub-heading">Memory::Types</h6>
+					<pre><code class="markdown">1. base ram (32kB)
+2. cart rom
+3. lua ram (1MB)</code></pre>
+
+
+
+					<h6 class="sub-heading">Memory::Keyboard/Mouse Mode</h6>
+					<pre><code class="lua">-- enable keyboard and mouse experimental mode
+<span class="hljs-built_in">poke</span>(0x5f2d, flags) -- flags are the following:
+0x1 -- enable
+0x2 -- mouse buttons trigger btn(4)..btn(6)
+0x4 -- pointer lock (use stat 38..39 to read movements)
+
+-- example init function
+function mouse_init(on,b2b,plock)
+ -- assign appropriate values
+ on = on and 0x01 or 0 -- on ……enables mouse 
+ b2b = b2b and 0x02 or 0 -- b2b……mouse btns->btn(❎🅾️◆)
+ plock = plock and 0x04 or 0 -- plock…enable pointer lock
+ -- combine into a bitfield
+ local flags = on+b2b+plock
+ -- pass the bitfield into memory
+ <span class="hljs-built_in">poke</span>(0x5f2d,flags)
+end
+
+<span class="hljs-built_in">stat</span>(30) -- read keyboard had input (bool); repeats every 4 frames after key held for 15 frames
+<span class="hljs-built_in">stat</span>(31) -- read keyboard character
+<span class="hljs-built_in">stat</span>(32) -- read x coord
+<span class="hljs-built_in">stat</span>(33) -- read y coord
+<span class="hljs-built_in">stat</span>(34) -- read button bitmask; 1 = primary, 2 = secondary, 4 = middle
+<span class="hljs-built_in">stat</span>(30) -- a boolean value representing if a keypress has occurred
+<span class="hljs-built_in">stat</span>(31) -- string name of the keypress when stat(30) is true
+<span class="hljs-built_in">stat</span>(32) -- mouse X
+<span class="hljs-built_in">stat</span>(33) -- mouse Y
+-- mouse buttons bitfield
+<span class="hljs-built_in">stat</span>(34)-- 0x1: left, 0x2: right, 0x4: middle
+<span class="hljs-built_in">stat</span>(35)-- unknown
+-- mouse wheel event
+<span class="hljs-built_in">stat</span>(36) -- 1 up, -1 down
+<span class="hljs-built_in">stat</span>(37) -- mouse acceleration delta
+-- 0x4 flag must be set for 38 and 39
+<span class="hljs-built_in">stat</span>(38) -- relative x movement in host desktop pixels
+<span class="hljs-built_in">stat</span>(39) -- relative y movement in host desktop pixels
+</code></pre>
+
+					<h6 class="sub-heading">Memory::Graphics Modes</h6>
+					<pre><code class="lua"><span class="hljs-built_in">poke</span>(0x5f2c, 0) -- standard, 128x128
+<span class="hljs-built_in">poke</span>(0x5f2c, 1) -- horizontal stretch, 64x128
+<span class="hljs-built_in">poke</span>(0x5f2c, 2) -- vertical stretch, 128x64
+<span class="hljs-built_in">poke</span>(0x5f2c, 3) -- zoomed, 64x64
+<span class="hljs-built_in">poke</span>(0x5f2c, 4) -- standard, 128x128
+<span class="hljs-built_in">poke</span>(0x5f2c, 5) -- mirror left half
+<span class="hljs-built_in">poke</span>(0x5f2c, 6) -- mirror top half
+<span class="hljs-built_in">poke</span>(0x5f2c, 7) -- mirror top-left quarter
+</code></pre>
+
+					<h6 class="sub-heading">Memory::Raspberry Pi / Pocketchip GPIO</h6>
+					<pre><code class="lua">-- run pico-8 as root ("sudo pico-8")
+-- 128 pin values in the range [0..255]
+<span class="hljs-built_in">poke</span>(0x5f80, value) -- send value to gpio0
+<span class="hljs-built_in">peek</span>(0x5f81) -- get value from gpio1
+
+--[[
+For more precise timing, the serial() command can be used. GPIO writes are buffered and 
+dispatched at the end of each frame, allowing clock cycling at higher and/or more regular 
+speeds than is possible by manually bit-banging using poke() calls
+
+  channel:
+    0x000..0x0fe    corresponds to gpio pin numbers; send 0x00 for LOW or 0xFF for HIGH
+    0x0ff           delay; length is taken to mean "duration" in microseconds (excl. overhead)
+    0x400..0x401    ws281x LED string (experimental)
+  	
+  address: The PICO-8 memory location to read from / write to.
+  length:  Number of bytes to send. 1/8ths are allowed to send partial bit strings.
+]]--
+</code></pre>
+
 				</div>
 
 				<!-- OPERATORS -->
@@ -547,33 +630,6 @@ a or b&nbsp; -- disjunction</code></pre>
 				</div>
 
 
-				<!-- PEEK / POKE -->
-				<div role="tabpanel" class="tab-pane fade" id="peekpoke">
-					<h6 class="sub-heading">Devkit Input Mode</h6>
-					<pre><code class="lua">poke(0x5f2d, 1) -- enable devkit input mode
-stat(30) -- read keyboard had input (bool); repeats every 4 frames after key held for 15 frames
-stat(31) -- read keyboard character
-stat(32) -- read x coord
-stat(33) -- read y coord
-stat(34) -- read button bitmask; 1 = primary, 2 = secondary, 4 = middle</code></pre>
-
-					<h6 class="sub-heading">Extra Graphics Modes</h6>
-					<pre><code class="lua">poke(0x5f2c, 0) -- standard, 128x128
-poke(0x5f2c, 1) -- horizontal stretch, 64x128
-poke(0x5f2c, 2) -- vertical stretch, 128x64
-poke(0x5f2c, 3) -- zoomed, 64x64
-poke(0x5f2c, 4) -- standard, 128x128
-poke(0x5f2c, 5) -- mirror left half
-poke(0x5f2c, 6) -- mirror top half
-poke(0x5f2c, 7) -- mirror top-left quarter</code></pre>
-
-					<h6 class="sub-heading">Raspberry Pi / Pocketchip GPIO</h6>
-					<pre><code class="lua">-- run pico-8 as root ("sudo pico-8")
--- 128 pin values in the range [0..255]
-poke(0x5f80, value) -- send value to gpio0
-peek(0x5f81) -- get value from gpio1
--- et cetera</code></pre>
-				</div>
 
 				<!-- PICO-8 -->
 				<div role="tabpanel" class="tab-pane fade" id="pico8">
@@ -699,30 +755,32 @@ stat(2) wouldn't rise, as such calculations are not system calls.
 				<p><center><img style="border-radius: 6px;width: 25%; height: 25%" src="img/all_glyphs.png" alt="" class="izoom"></center></p>
 
 					<h6 class="sub-heading">Strings</h6>
-					<pre><code class="lua">-- Single quotes are fastest.
-sonic = 'Movin around at the speed of sound.'
--- But you've still got the Prower to make that adverb <kbd><i>feel faster</i></kbd> in single quotes
-tails = 'Can\'t stick around, gotta keep movin\' on.'
+					<pre><code class="lua">-- single quotes require no shift key, quicker to type!
+single = 'type faster'
+-- double quotes keep the escape sequences at bay!
+double = "type safer"
 
--- Double quotes can help avoid the backslashapostatrophe.
-adventure = "Don't stop, believin."
--- But what if I want to include the next line of that non-copyrighted lyrical element in the same string?
+-- if you need the single quote character while inside a single quoted string,
+-- you must make use of the backslash as an escape character
+escaped = 'it\'s a mad, mad, mad, mad world'
+
+-- lua and pico-8 have escape sequences that allow you to use non-text symbols in strings
+-- click <a href="https://www.lua.org/pil/2.4.html" target="_blank">here</a> for more on escape sequences in lua
 newline = "\n"
--- A backslash before the letter 'n' will get that job done. There's a few more you can find <a href="">here</a>
-getitout = "Don't stop, believin.\nDon't hold on to that feelin'."
+backspace = "\b"
 
--- But for the poets and commenters out there, the King of String, is the double parenthetical.
--- What You See is What You Get; Anything within these brackets is interpreted as is, <i>including new lines</i>
-WYSIWYG = [[
-"THROUGH me you pass into the city of woe:
+-- multiline strings use double brackets
+-- they preserve the formatting within them allowing for a newline at their start too
+bracketed = [[
+Through me you pass into the city of woe:
 Through me you pass into eternal pain:
 Through me among the people lost for aye.
-Justice the founder of my fabric mov'd:
+Justice the founder of my fabric moved:
 To rear me was the task of power divine,
 Supremest wisdom, and primeval love.
 Before me things create were none, save things
-Eternal, and eternal I endure.
-"All hope abandon ye who enter here."
+Eternal, and eternal I shall endure.
+All hope abandon, ye who enter here.
 ]]</code></pre>
 
 					<h6 class="sub-heading">String:Operators</h6>
@@ -733,30 +791,47 @@ Eternal, and eternal I endure.
 
 					<h6 class="sub-heading">String::Functions</h6>
 					<pre><code class="lua"><span class="hljs-built_in">sub</span>(str, from, [to]) -- Get character[s] in the range [from]:[to]
+
+-- Convert val to a string; if hex is true and val is a number; Output: "0x0000.0000"
+<span class="hljs-built_in">tostr</span>(val, [hex])
+-- Cast parseable str to number; nil if str isn't a number; "0xAF" format for hex
+<span class="hljs-built_in">tonum</span>(str) or "123.45" + 0 -- alternative to tonum
+
+-- gets a string character from a value[0..255]
+<span class="hljs-built_in">chr</span>(num)
+-- gets the index [0..255] from a character
+<span class="hljs-built_in">ord</span>(str)
+
+-- ♥ : 135 
+print(chr(135).. " : ".. ord('♥'))
+
+-- split a string into a table of elements delimited by the given separator (defaults to ",").
+<span class="hljs-built_in">split</span>(str, [separator], [convert_numbers])
+
 --[[
-Split a string into a table of elements delimited by the given separator (defaults to ",").
 When convert_numbers is true, numerical tokens are stored as numbers (defaults to true).
 Empty elements are stored as empty strings.
 When the separator is "", every character is split into a separate element.
 ]]--
+
 <span class="hljs-built_in">split</span>(str, [separator], [convert_numbers])
 	split("1,2,3") -- returns {1,2,3}
 	split("one:two:3",":",false) -- returns {"one","two","3"}
-	split("1,,2,") -- returns {1,"",2,""}
-
--- Convert val to a string; if hex is true and val is a number; Output: "0x0000.0000"
-<span class="hljs-built_in">tostr</span>(val, [hex])
-
--- Cast parseable str to number; nil if str isn't a number; "0xAF" format for hex
-<span class="hljs-built_in">tonum</span>(str)
-"123.45" + 0 -- alternative to tonum
-<span class="hljs-built_in">chr</span>(num) -- gets a string character from a value[0..255]
-<span class="hljs-built_in">ord</span>(str) -- gets the index [0..255] from a character
-print(chr(135).. " : ".. ord('♥')) -- ♥ : 135 </code></pre>
+	split("1,,2,") -- returns {1,"",2,""}</code></pre>
 
 
-					<h6 class="sub-heading">String::Special Characters</h6>
-					<pre><code class="lua">print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
+					<h6 class="sub-heading">String::Special</h6>
+					<pre><code class="lua"> -- written on a single line, ? can be used to call print without brackets
+?"hi"
+-- when printing without [x,y] arguments, newlines are automatically added to strings
+-- this behavior can be overridden by using the <b>explicit termination command</b>
+?"quick brown fox"
+-- >> quick brown fox
+-- >> 
+?"quick brown fox\0"
+-- >> quick brown fox
+
+print("l:\x8b r:\x91 u:\x94 d:\x83 o:\x8e x:\x97")</code></pre>
 				</div>
 
 				<!-- 0x13. P8SCII-->
@@ -924,6 +999,24 @@ The first five bytes (character 0 is never drawn) describes attributes of the fo
 
 				</div>
 
+				<!-- 0x14. LUA-->
+				<div role="tabpanel" class="tab-pane fade" id="lua">
+
+					<h6 class="sub-heading">Lua</h6>
+					<pre><code class="lua">
+-- returns all of the arguments after index.
+<span class="hljs-built_in">select</span>(index, ...)
+
+-- these functions provide raw access to tables
+-- if any metamethods are defined for them, they are ignored
+<span class="hljs-built_in">rawset</span>(t, key, value)
+<span class="hljs-built_in">rawget</span>(t, key)
+<span class="hljs-built_in">rawequal</span>(t1, t2)
+<span class="hljs-built_in">rawlen</span>(t)
+
+
+</code></pre>
+				</div>
 
 				<!-- TABLES -->
 				<div role="tabpanel" class="tab-pane fade" id="tables">
