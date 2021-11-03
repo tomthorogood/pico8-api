@@ -199,7 +199,9 @@
 					<p><center><img src="img/icon.png" alt="" class="img-responsive"></center></p>
 
 					
-					<p class="note">Version <code>0.2.2</code> <br><i>Added <b>P8SCII</b> tab, Secret Palette.</i></p>
+					<p class="note">Version <code>0.2.3</code> <br>
+					<!-- <i>Added <b>P8SCII</b> tab, Secret Palette.</i></p> -->
+					<i>Added <code>config</code> section.<br>More to come.</i></p>
 					<h6 class="sub-heading">Commandline Arguments</h6>
 					<style>.a{font-style: italic; color: #fdcc59; font-weight: 900;}</style>
 					<pre><code class="gml">--  Run Pico-8 from Terminal
@@ -209,6 +211,7 @@ pico-8 [switches] cart.p8
 -width                  <span class="a">n</span>     -- set the window width
 -height                 <span class="a">n</span>     -- set the window height
 -windowed               <span class="a">n</span>     -- set windowed mode off (0) or on (1)
+-frameless              <span class="a">n</span>     -- run pico-8 in borderless window mode w/ (1); normally w/ (0)
 -volume                 <span class="a">n</span>     -- set all audio volume [0..256]
 -sound                  <span class="a">n</span>     -- set only sfx volume [0..256]
 -music                  <span class="a">n</span>     -- set only music volume [0..256]
@@ -233,30 +236,32 @@ pico-8 [switches] cart.p8
 -background_sleep_ms    <span class="a">n</span>     -- how many milliseconds to sleep between frames in bg
 -accept_future          <span class="a">n</span>     -- use (1) to allow loading cartridges made w/ newer P8 versions
 -global_api             <span class="a">n</span>     -- use (1) to leave api functions in global scope (debugging)
+-show_fps               <span class="a">n</span>     -- displays fps counter (1) on, (0) off
 </code></pre>
 
-<!-- 					<h6>old manpage</h6>
-					<pre><code class="bash"># version 0.1.11c
--run # boot filename.p8 on startup
--width n # set the window or screen width and adjust scale to fit if not specified
--height n # set the window or screen height and adjust scale to fit if not specified
--windowed b # set windowed mode off (0) or on (1)
--sound n # sound volume [0..256]
--music n # sound volume [0..256]
--joystick n # joystick controls starts at player n [0..7]
--pixel_perfect b # set filter for screen stretching off (0) or on (1)
--draw_rect x,y,w,h # window coordinates and size
--splore # boot in splore mode
--home path # customise home directory
--desktop path # set desktop path for screenshots and gifs
--screenshot_scale n # size of each screenshot pixel; default = 3
--gif_scale n # size of each gif pixel; default = 2
--gif_len n # set the maximum gif length in seconds; n in [1..120]
--gui_theme n # set the code editor theme; 0 = classic, 1 = dark blue
--timeout n # timeout switch for splore downloads
--frameless b # set borderless window off (0) or on (1)
--show_fps b # set fps display off (0) or on (1)</code></pre> -->
+<hr>
+					<blockquote style="font-size: 12px;">In 0.2.3, Pico-8 granted us more configuration options with the new <code style="color:  #fff1e8;background-color: #1d2b53">config <i>[option]</i></code> function, allowing for interactive customization while Pico-8 is running.</blockquote>
+					<h6 class="sub-heading">Configuration</h6>
+					<pre><code class="markdown"># sets the volume, minimum of 8, max of 256.
+> <span class="hljs-built_in">config</span> volume [<span class="a">8 - 256</span>]
+# set the theme of the pico-8 IDE. choices are 
+> <span class="hljs-built_in">config</span> theme [<span class="a"><em>auto</em>, <em>blue</em>, <em>classic</em></span>]
+# set the length of saved gifs. defaults to 8, max is 120.
+> <span class="hljs-built_in">config</span> gif_len [<span class="a">1 - 120</span>]
+# post-gif-recording behavior. 0: <b>no reset</b>, 1: <b>reset</b>
+> <span class="hljs-built_in">config</span> gif_reset_mode [<span class="a">0 - 1</span>]
+# gif scaling
+> <span class="hljs-built_in">config</span> gif_scale [<span class="a">1 - 8</span>]
+# screenshot scaling
+> <span class="hljs-built_in">config</span> screenshot_scale [<span class="a">1 - 8</span>]
+# splore filtering. 
+# when enabled, any carts marked <b>mature</b> will not be downloaded.
+> <span class="hljs-built_in">config</span> splore_filter [<span class="a">on, off</span>]
+# tab width size
+> <span class="hljs-built_in">config</span> tab_width [<span class="a">1 - 8</span>]
+</code></pre>
 
+<hr>
 					<h6 class="sub-heading">PICO-8 Specs</h6>
 					<pre><code class="markdown">- display: 128x128, fixed 16 colour palette
 - input: 6 buttons
