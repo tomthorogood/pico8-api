@@ -6,7 +6,7 @@ Category: common, scripting
 Website: https://www.lua.org
 */
 
-export default function(hljs) {
+export default function (hljs) {
   const OPENING_LONG_BRACKET = '\\[=*\\[';
   const CLOSING_LONG_BRACKET = '\\]=*\\]';
   const LONG_BRACKETS = {
@@ -18,8 +18,7 @@ export default function(hljs) {
     hljs.COMMENT('--(?!' + OPENING_LONG_BRACKET + ')', '$'),
     hljs.COMMENT(
       '--' + OPENING_LONG_BRACKET,
-      CLOSING_LONG_BRACKET,
-      {
+      CLOSING_LONG_BRACKET, {
         contains: [LONG_BRACKETS],
         relevance: 10
       }
@@ -48,8 +47,7 @@ export default function(hljs) {
         'string sub upper len gfind rep find match char dump gmatch reverse byte format gsub lower ' +
         'table setn insert getn foreachi maxn foreach concat sort remove'
     },
-    contains: COMMENTS.concat([
-      {
+    contains: COMMENTS.concat([{
         className: 'function',
         beginKeywords: 'function',
         end: '\\)',
