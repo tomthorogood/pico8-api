@@ -11,8 +11,9 @@
 ![jelpi](https://raw.githubusercontent.com/iiviigames/pico8-api/gh-pages/img/p8_jelpi.gif)
 
 PICO-8 is a fantasy console.  
-A fantasy console is a digital console, (8-bit like, in this case) which with games can be both **played** and **made**.
-Cartridges are distributed iin the form of images, which contain the code, graphics, and music.  
+A fantasy console is a digital console, (8-bit like, in this case) which with games can be both **played** and **made**.  
+Cartridges are distributed in the form of images, which contain the code, graphics, and music.  
+The image just **below this text** can be dropped into the PICO-8 software, and it will load right up!
 
 ![cart]
 
